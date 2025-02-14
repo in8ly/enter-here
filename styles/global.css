@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+    --shadow-depth:#2a3831;
+    --lavender-mist:#e6d7e6;
+    --golden-spark:#ffd700;
+    --etheral-blue:#a3d4e5;
+}
+
+body{
+    background-color:var(--shadow-depth);
+}
