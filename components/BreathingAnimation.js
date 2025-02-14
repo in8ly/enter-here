@@ -1,8 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const BreathingAnimation = () => {
+  const [text, setText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+  const [showTimestamp, setShowTimestamp] = useState(false);
+  const fullText = '> welcome to liminal space_';
+  
+  useEffect(() => {
+    // Show timestamp after 15 seconds
+    const timestampTimeout = setTimeout(() => {
+      setShowTimestamp(true);
+    }, 15000);
+
+    // Typewriter effect
+    if (text.length < fullText.length) {
+      const timeout = setTimeout(() => {
+        setText(fullText.slice(0, text.length + 1));
+      }, 100);
+      return () => {
+        clearTimeout(timeout);
+        clearTimeout(timestampTimeout);
+      };
+    } else {
+      const cursorTimeout = setTimeout(() => setShowCursor(false), 1000);
+      return () => {
+        clearTimeout(cursorTimeout);
+        clearTimeout(timestampTimeout);
+      };
+    }
+  }, [text]);
+
+  const currentTime = new Date().toLocaleTimeString('en-US', { 
+    hour12: false, 
+    hour: '2-digit', 
+    minute: '2-digit' 
+  });
+
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-shadow-depth">
+    <div className="w-full h-screen flex flex-col items-center justify-center bg-shadow-depth">
+      <div className="w-full max-w-2xl mb-8 font-mono text-lavender-mist">
+        <p className="text-sm h-6 opacity-60">
+          {text}
+          {showCursor && <span className="animate-blink">|</span>}
+        </p>
+        {showTimestamp && (
+          <p className="text-sm h-6 animate-fade-in">
+            > {currentTime}
+          </p>
+        )}
+      </div>
+
+      {/* Your existing SVG animation */}
       <svg 
         xmlns="http://www.w3.org/2000/svg" 
         viewBox="0 0 400 400"
@@ -150,6 +198,11 @@ const BreathingAnimation = () => {
           </circle>
         </g>
       </svg>
+
+      {/* Subtle hint text */}
+      <div className="mt-8 font-mono text-ethereal-blue opacity-40 text-sm">
+        <p>/* between what was && what could be */</p>
+      </div>
     </div>
   );
 };
