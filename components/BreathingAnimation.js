@@ -14,27 +14,28 @@ const BreathingAnimation = () => {
     if (isIOS) {
       const timeline = gsap.timeline({
         repeat: -1,
-        defaults: { ease: "power1.inOut" }
+        defaults: { ease: "sine.inOut" }
       });
 
       timeline
-        .to(".breathing-circle", {
-          scale: 1.03,
-          opacity: 0.4,
-          duration: 4,
+        .to(".circle-one", {
+          scale: 1.02,
+          x: -3,
+          opacity: 0.3,
+          duration: 6,
           yoyo: true
         })
-        .to(".phoenix-center", {
-          scale: 1.1,
-          rotation: 5,
-          opacity: 0.7,
-          duration: 3,
+        .to(".circle-two", {
+          scale: 1.02,
+          x: 3,
+          opacity: 0.3,
+          duration: 6,
           yoyo: true
         }, "<")
         .to(".soul-point", {
-          scale: 1.5,
-          opacity: 0.9,
-          duration: 2,
+          scale: 1.2,
+          opacity: [0.4, 0.7, 0.4],
+          duration: 4,
           yoyo: true
         }, "<");
     }
@@ -94,28 +95,67 @@ const BreathingAnimation = () => {
         viewBox="0 0 400 400"
         className="w-full max-w-2xl"
       >
+        {/* First breathing circle */}
         <circle 
-          className="breathing-circle"
+          className="circle-one"
           cx="200" cy="200" r="180" 
           fill="none" 
           stroke="var(--lavender-mist)" 
           strokeWidth="1" 
           opacity="0.2"
-        />
-        <g className="phoenix-center">
-          <path 
-            d="M 200 170 L 230 200 L 200 230 L 170 200 Z" 
-            fill="none" 
-            stroke="var(--golden-spark)" 
-            strokeWidth="0.5"
+        >
+          <animate 
+            attributeName="r" 
+            values="180;183;180" 
+            dur="6s" 
+            repeatCount="indefinite" 
+            calcMode="spline"
+            keySplines="0.4 0 0.6 1; 0.4 0 0.6 1"
           />
-        </g>
+        </circle>
+
+        {/* Second breathing circle */}
+        <circle 
+          className="circle-two"
+          cx="200" cy="200" r="175" 
+          fill="none" 
+          stroke="var(--lavender-mist)" 
+          strokeWidth="1" 
+          opacity="0.2"
+        >
+          <animate 
+            attributeName="r" 
+            values="175;178;175" 
+            dur="6s" 
+            repeatCount="indefinite" 
+            calcMode="spline"
+            keySplines="0.4 0 0.6 1; 0.4 0 0.6 1"
+          />
+        </circle>
+
+        {/* Centered soul point */}
         <circle 
           className="soul-point"
-          cx="200" cy="200" r="0.5" 
+          cx="200" cy="200" r="0.8" 
           fill="var(--golden-spark)" 
           opacity="0.4"
         />
+
+        {/* Cardinal points that fade */}
+        <g className="cardinal-points" opacity="0.3">
+          <circle cx="200" cy="175" r="0.5" fill="var(--golden-spark)">
+            <animate attributeName="opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="225" cy="200" r="0.5" fill="var(--golden-spark)">
+            <animate attributeName="opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite" begin="1s" />
+          </circle>
+          <circle cx="200" cy="225" r="0.5" fill="var(--golden-spark)">
+            <animate attributeName="opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite" begin="2s" />
+          </circle>
+          <circle cx="175" cy="200" r="0.5" fill="var(--golden-spark)">
+            <animate attributeName="opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite" begin="3s" />
+          </circle>
+        </g>
         
         {showSwirls && (
           <g className="royal-swirls">
