@@ -246,8 +246,15 @@ const BreathingAnimation = () => {
         )}
       </svg>
 
-      <div className="mt-8 font-mono text-ethereal-blue opacity-40 text-sm hover:opacity-60 transition-all duration-300">
-        <p>/* between what was & what could be */</p>
+      <div className="flex flex-col items-center gap-2 mt-8 font-mono">
+        {showTimestamp && (
+          <p className="text-sm h-6 animate-fade-in text-golden-spark opacity-30">
+            {'>'} hello world ... {currentTime}
+          </p>
+        )}
+        <p className="text-ethereal-blue opacity-40 text-sm hover:opacity-60 transition-all duration-300">
+          {/* between what was & what could be */}
+        </p>
       </div>
     </div>
   );
