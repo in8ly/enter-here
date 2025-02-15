@@ -19,11 +19,12 @@ const BreathingAnimation = () => {
 
       timeline
         .to(".circle-one", {
-          scale: 1.02,
-          x: -3,
+          scale: 1.015,      // Reduced from 1.02
+          x: -2,            // Reduced from -3
           opacity: 0.3,
           duration: 6,
-          yoyo: true
+          yoyo: true,
+          ease: "sine.inOut"
         })
         .to(".circle-two", {
           scale: 1.02,
