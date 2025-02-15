@@ -26,10 +26,6 @@ body {
         -webkit-perspective: 1000;
         will-change: transform;
     }
-    
-    .animate-blink {
-        -webkit-animation: blink 1s step-end infinite;
-    }
 }
 
 /* General mobile optimizations */
