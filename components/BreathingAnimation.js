@@ -6,12 +6,12 @@ const BreathingAnimation = () => {
   const [text, setText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
   const [showTimestamp, setShowTimestamp] = useState(false);
+  const [showSwirls, setShowSwirls] = useState(false);
   const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const fullText = '> welcome to liminal space_';
   
   useEffect(() => {
     if (isIOS) {
-      // Phoenix transformation animation
       const timeline = gsap.timeline({
         repeat: -1,
         defaults: { ease: "power1.inOut" }
@@ -39,6 +39,11 @@ const BreathingAnimation = () => {
         }, "<");
     }
 
+    // Show royal blue swirls after 20 seconds
+    const swirlsTimeout = setTimeout(() => {
+      setShowSwirls(true);
+    }, 20000);
+
     // Show timestamp after 15 seconds
     const timestampTimeout = setTimeout(() => {
       setShowTimestamp(true);
@@ -52,12 +57,14 @@ const BreathingAnimation = () => {
       return () => {
         clearTimeout(timeout);
         clearTimeout(timestampTimeout);
+        clearTimeout(swirlsTimeout);
       };
     } else {
       const cursorTimeout = setTimeout(() => setShowCursor(false), 1000);
       return () => {
         clearTimeout(cursorTimeout);
         clearTimeout(timestampTimeout);
+        clearTimeout(swirlsTimeout);
       };
     }
   }, [text]);
@@ -82,7 +89,6 @@ const BreathingAnimation = () => {
         )}
       </div>
 
-      {/* Your existing SVG animation */}
       <svg 
         ref={svgRef}
         viewBox="0 0 400 400"
@@ -97,7 +103,12 @@ const BreathingAnimation = () => {
           opacity="0.2"
         />
         <g className="phoenix-center">
-          {/* Your existing phoenix/diamond path */}
+          <path 
+            d="M 200 170 L 230 200 L 200 230 L 170 200 Z" 
+            fill="none" 
+            stroke="var(--golden-spark)" 
+            strokeWidth="0.5"
+          />
         </g>
         <circle 
           className="soul-point"
@@ -105,11 +116,29 @@ const BreathingAnimation = () => {
           fill="var(--golden-spark)" 
           opacity="0.4"
         />
+        
+        {showSwirls && (
+          <g className="royal-swirls">
+            <path
+              d="M 200 200 Q 300 100 200 50 T 200 0"
+              fill="none"
+              stroke="#1a237e"
+              strokeWidth="0.3"
+              opacity="0.08"
+            />
+            <path
+              d="M 200 200 Q 100 300 50 200 T 0 200"
+              fill="none"
+              stroke="#1a237e"
+              strokeWidth="0.3"
+              opacity="0.08"
+            />
+          </g>
+        )}
       </svg>
 
-      {/* Subtle hint text */}
-      <div className="mt-8 font-mono text-ethereal-blue opacity-40 text-sm">
-        <p>/* between what was & what could be */</p>
+      <div className="mt-8 font-mono text-ethereal-blue opacity-40 text-sm hover:opacity-60 transition-all duration-300">
+        <p>/* between what was && what could be */</p>
       </div>
     </div>
   );
