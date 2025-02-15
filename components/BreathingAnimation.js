@@ -84,15 +84,20 @@ const BreathingAnimation = () => {
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center bg-shadow-depth">
       <div className="w-full max-w-2xl mb-8 font-mono text-lavender-mist">
+        {showTimestamp && (
+          <p className="text-sm h-6 animate-fade-in text-golden-spark opacity-40">
+            {timeText}{currentTime}
+          </p>
+        )}
+        {showHello && (
+          <p className="text-sm h-6 animate-fade-in text-ethereal-blue opacity-40">
+            {helloText}
+          </p>
+        )}
         <p className="text-sm h-6 opacity-60">
           {text}
           {showCursor && <span className="animate-blink">|</span>}
         </p>
-        {showTimestamp && (
-          <p className="text-sm h-6 animate-fade-in">
-            {'>'} {currentTime}
-          </p>
-        )}
       </div>
 
       <svg 
@@ -251,9 +256,9 @@ const BreathingAnimation = () => {
       </svg>
 
       <div className="flex flex-col items-center gap-2 mt-8 font-mono">
-        {showTimestamp && (
-          <p className="text-sm h-6 animate-fade-in text-golden-spark opacity-40">
-            {'>'} It is Now == {currentTime}
+        {showAdventure && (
+          <p className="text-sm h-6 animate-pulse text-golden-spark opacity-40 hover:opacity-60 transition-all duration-700">
+            {adventureText}
           </p>
         )}
         <p className="text-ethereal-blue opacity-40 text-sm hover:opacity-60 transition-all duration-300">
