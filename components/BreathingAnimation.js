@@ -71,11 +71,15 @@ const BreathingAnimation = () => {
     }
   }, [text]);
 
-  const currentTime = new Date().toLocaleTimeString('en-US', { 
-    hour12: false, 
-    hour: '2-digit', 
-    minute: '2-digit' 
-  });
+  const currentTime = new Date().toLocaleString('en-US', { 
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  }).replace(',', '');
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center bg-shadow-depth">
@@ -248,8 +252,8 @@ const BreathingAnimation = () => {
 
       <div className="flex flex-col items-center gap-2 mt-8 font-mono">
         {showTimestamp && (
-          <p className="text-sm h-6 animate-fade-in text-golden-spark opacity-30">
-            {'>'} hello world ... {currentTime}
+          <p className="text-sm h-6 animate-fade-in text-golden-spark opacity-40">
+            {'>'} It is Now == {currentTime}
           </p>
         )}
         <p className="text-ethereal-blue opacity-40 text-sm hover:opacity-60 transition-all duration-300">
