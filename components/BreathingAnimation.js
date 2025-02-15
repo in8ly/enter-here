@@ -247,7 +247,7 @@ const BreathingAnimation = () => {
       </svg>
 
       <div className="mt-8 font-mono text-ethereal-blue opacity-40 text-sm hover:opacity-60 transition-all duration-300">
-        <p>/* between what was && what could be */</p>
+        <p>/* between what was & what could be */</p>
       </div>
     </div>
   );
