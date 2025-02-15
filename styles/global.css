@@ -24,6 +24,7 @@ body {
         -webkit-backface-visibility: hidden;
         perspective: 1000;
         -webkit-perspective: 1000;
+        will-change: transform;
     }
     
     .animate-blink {
