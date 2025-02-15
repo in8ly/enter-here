@@ -9,6 +9,8 @@ const BreathingAnimation = () => {
   const [showSwirls, setShowSwirls] = useState(false);
   const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const fullText = '> welcome to liminal space_';
+  const spaceBetweenText = 'a space between here and there';
+  const timeText = '> It is Now == ';
   
   useEffect(() => {
     if (isIOS) {
@@ -84,20 +86,20 @@ const BreathingAnimation = () => {
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center bg-shadow-depth">
       <div className="w-full max-w-2xl mb-8 font-mono text-lavender-mist">
-        {showTimestamp && (
-          <p className="text-sm h-6 animate-fade-in text-golden-spark opacity-40">
-            {timeText}{currentTime}
-          </p>
-        )}
-        {showHello && (
-          <p className="text-sm h-6 animate-fade-in text-ethereal-blue opacity-40">
-            {helloText}
-          </p>
-        )}
         <p className="text-sm h-6 opacity-60">
           {text}
           {showCursor && <span className="animate-blink">|</span>}
         </p>
+        {showTimestamp && (
+          <>
+            <p className="text-sm h-6 animate-fade-in text-ethereal-blue opacity-40">
+              {spaceBetweenText}
+            </p>
+            <p className="text-sm h-6 animate-fade-in text-golden-spark opacity-40">
+              {timeText}{currentTime}
+            </p>
+          </>
+        )}
       </div>
 
       <svg 
