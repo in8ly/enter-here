@@ -11,4 +11,21 @@
 
 body {
     background-color: var(--shadow-depth);
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+}
+
+/* Ensure smooth animation performance on mobile */
+@media (max-width: 768px) {
+    svg {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+}
+
+/* Prevent text selection during animation */
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
