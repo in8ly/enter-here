@@ -178,7 +178,37 @@ const BreathingAnimation = () => {
             <animate attributeName="opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite" begin="3s" />
           </circle>
         </g>
+        {/* Adjust soul point for better cross-device experience */}
+        <circle 
+          className="soul-point"
+          cx="200" cy="200" r="0.8" 
+          fill="var(--golden-spark)" 
+          opacity="0.3"  // Reduced from 0.4 for more subtlety
+        />
         
+        {/* Enhanced radiation rings */}
+        <circle 
+          cx="200" cy="200" r="5" 
+          fill="none" 
+          stroke="var(--lavender-mist)" 
+          strokeWidth="0.3"  // Reduced from 0.5 for more delicacy
+          opacity="0.15"    // More subtle initial state
+        >
+          <animate 
+            attributeName="r" 
+            values="5;15;5" 
+            dur="4s"        // Slowed down from 3s
+            repeatCount="indefinite"
+            calcMode="spline"
+            keySplines="0.4 0 0.6 1; 0.4 0 0.6 1"
+          />
+          <animate 
+            attributeName="opacity" 
+            values="0.15;0.05;0.15" 
+            dur="4s" 
+            repeatCount="indefinite"
+          />
+        </circle>        
         {/* Moving lights constellation */}
         <g className="moving-lights">
           <circle cx="200" cy="75" r="1" fill="var(--ethereal-blue)" opacity="0.3">
