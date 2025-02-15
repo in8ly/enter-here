@@ -201,7 +201,7 @@ const BreathingAnimation = () => {
 
       {/* Subtle hint text */}
       <div className="mt-8 font-mono text-ethereal-blue opacity-40 text-sm">
-        <p>/* between what was && what could be */</p>
+        <p>/* between what was & what could be */</p>
       </div>
     </div>
   );
