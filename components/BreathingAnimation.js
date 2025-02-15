@@ -45,7 +45,7 @@ const BreathingAnimation = () => {
         </p>
         {showTimestamp && (
           <p className="text-sm h-6 animate-fade-in">
-            > {currentTime}
+            {'>'} {currentTime}
           </p>
         )}
       </div>
