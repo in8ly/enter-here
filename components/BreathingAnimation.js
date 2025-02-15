@@ -141,6 +141,28 @@ const BreathingAnimation = () => {
           opacity="0.4"
         />
 
+        {/* Radiation rings around soul point */}
+        <circle 
+          cx="200" cy="200" r="5" 
+          fill="none" 
+          stroke="var(--lavender-mist)" 
+          strokeWidth="0.5" 
+          opacity="0.2"
+        >
+          <animate 
+            attributeName="r" 
+            values="5;15;5" 
+            dur="3s" 
+            repeatCount="indefinite"
+          />
+          <animate 
+            attributeName="opacity" 
+            values="0.2;0;0.2" 
+            dur="3s" 
+            repeatCount="indefinite"
+          />
+        </circle>
+
         {/* Cardinal points that fade */}
         <g className="cardinal-points" opacity="0.3">
           <circle cx="200" cy="175" r="0.5" fill="var(--golden-spark)">
@@ -157,6 +179,22 @@ const BreathingAnimation = () => {
           </circle>
         </g>
         
+        {/* Moving lights constellation */}
+        <g className="moving-lights">
+          <circle cx="200" cy="75" r="1" fill="var(--ethereal-blue)" opacity="0.3">
+            <animate attributeName="opacity" values="0.3;0.5;0.3" dur="3s" repeatCount="indefinite"/>
+            <animateMotion path="M 0 0 A 125 125 0 0 0 125 125" dur="6s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="325" cy="200" r="1" fill="var(--ethereal-blue)" opacity="0.3">
+            <animate attributeName="opacity" values="0.3;0.5;0.3" dur="4s" repeatCount="indefinite"/>
+            <animateMotion path="M 0 0 A 125 125 0 0 0 -125 125" dur="6s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="200" cy="325" r="1" fill="var(--ethereal-blue)" opacity="0.3">
+            <animate attributeName="opacity" values="0.3;0.5;0.3" dur="4s" repeatCount="indefinite"/>
+            <animateMotion path="M 0 0 A 125 125 0 0 0 125 -125" dur="6s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+
         {showSwirls && (
           <g className="royal-swirls">
             <path
