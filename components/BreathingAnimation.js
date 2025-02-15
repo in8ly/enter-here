@@ -231,15 +231,15 @@ const BreathingAnimation = () => {
               d="M 200 200 Q 300 100 200 50 T 200 0"
               fill="none"
               stroke="#1a237e"
-              strokeWidth="0.3"
-              opacity="0.08"
+              strokeWidth="0.4"    // Increased from 0.3
+              opacity="0.12"      // Increased from 0.08
             />
             <path
               d="M 200 200 Q 100 300 50 200 T 0 200"
               fill="none"
               stroke="#1a237e"
-              strokeWidth="0.3"
-              opacity="0.08"
+              strokeWidth="0.4"    // Increased from 0.3
+              opacity="0.12"      // Increased from 0.08
             />
           </g>
         )}
