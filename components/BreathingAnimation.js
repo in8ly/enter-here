@@ -14,31 +14,30 @@ const BreathingAnimation = () => {
   
   useEffect(() => {
     if (isIOS) {
+      // Phoenix transformation animation
       const timeline = gsap.timeline({
         repeat: -1,
-        defaults: { ease: "sine.inOut" }
+        defaults: { ease: "power1.inOut" }
       });
 
       timeline
-        .to(".circle-one", {
-          scale: 1.015,      // Reduced from 1.02
-          x: -2,            // Reduced from -3
-          opacity: 0.3,
-          duration: 6,
-          yoyo: true,
-          ease: "sine.inOut"
+        .to(".breathing-circle", {
+          scale: 1.03,
+          opacity: 0.4,
+          duration: 4,
+          yoyo: true
         })
-        .to(".circle-two", {
-          scale: 1.02,
-          x: 3,
-          opacity: 0.3,
-          duration: 6,
+        .to(".phoenix-center", {
+          scale: 1.1,
+          rotation: 5,
+          opacity: 0.7,
+          duration: 3,
           yoyo: true
         }, "<")
         .to(".soul-point", {
-          scale: 1.2,
-          opacity: [0.4, 0.7, 0.4],
-          duration: 4,
+          scale: 1.5,
+          opacity: 0.9,
+          duration: 2,
           yoyo: true
         }, "<");
     }
