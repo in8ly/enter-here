@@ -121,6 +121,21 @@ const BreathingAnimation = () => {
                 stroke="var(--golden-spark)" 
                 strokeWidth="0.5" />
         </g>
+        <g className="phoenix-center">
+          <path 
+            d="M 200 170 L 230 200 L 200 230 L 170 200 Z" 
+            fill="none" 
+            stroke="var(--golden-spark)" 
+            strokeWidth="0.5"
+          />
+          {/* Add radiating points for phoenix wings */}
+          <path 
+            d="M 200 160 L 200 150 M 240 200 L 250 200 M 200 240 L 200 250 M 160 200 L 150 200" 
+            stroke="var(--lavender-mist)" 
+            strokeWidth="0.3"
+            opacity="0.5"
+          />
+        </g>
         <circle 
           className="spark-point"
           cx="200" cy="200" r="1" 
