@@ -106,6 +106,23 @@ const BreathingAnimation = () => {
         viewBox="0 0 400 400"
         className="w-full max-w-2xl"
       >
+        <circle 
+          className="breathing-circle"
+          cx="200" cy="200" r="180" 
+          fill="none" 
+          stroke="var(--lavender-mist)" 
+          strokeWidth="1" 
+          opacity="0.2"
+        />
+        <g className="phoenix-center">
+          {/* Your existing phoenix/diamond path */}
+        </g>
+        <circle 
+          className="soul-point"
+          cx="200" cy="200" r="0.5" 
+          fill="var(--golden-spark)" 
+          opacity="0.4"
+        />
         {/* First breathing circle */}
         <circle 
           className="circle-one"
