@@ -58,6 +58,42 @@ const BreathingAnimation = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // Ensure phoenix is hidden initially
+      gsap.set(".phoenix-rise", { opacity: 0 });
+      
+      const mainTl = gsap.timeline();
+      
+      // Animation sequence
+      mainTl
+        .to(".liminal-circle", {
+          scale: 1.03,
+          opacity: 0.4,
+          duration: 4,
+          yoyo: true,
+          repeat: -1
+        })
+        .add(() => setShowTimestamp(true), 15)
+        // Phoenix appears with brief wing animation
+        .add(() => {
+          setShowPhoenixText(true);
+          gsap.to(".phoenix-rise", {
+            opacity: 1,
+            duration: 0.7,
+            onComplete: () => {
+              setShowWings(true);
+              setTimeout(() => setShowWings(false), 3000);
+            }
+          });
+        }, 18)
+        .add(() => setShowSwirls(true), 20)
+        .add(() => setShowAdventure(true), 22);
+
+      return () => mainTl.kill();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
       // Initial state - hide phoenix
       gsap.set(".phoenix-rise", { opacity: 0 });
       gsap.set(".phoenix-center", { opacity: 0 });
@@ -164,26 +200,18 @@ const BreathingAnimation = () => {
             stroke="var(--golden-spark)" 
             strokeWidth="0.5" 
           />
-          {showWings && (
-            <g className="wings animate-fade-out">
-              {/* wing paths */}
-            </g>
-          )}
-        </g>
-        <g className="phoenix-center">
-          <path 
-            d="M 200 170 L 230 200 L 200 230 L 170 200 Z" 
-            fill="none" 
-            stroke="var(--golden-spark)" 
-            strokeWidth="0.5"
-          />
-          {/* Add radiating points for phoenix wings */}
+          {/* Add radiating points here */}
           <path 
             d="M 200 160 L 200 150 M 240 200 L 250 200 M 200 240 L 200 250 M 160 200 L 150 200" 
             stroke="var(--lavender-mist)" 
             strokeWidth="0.3"
             opacity="0.5"
           />
+          {showWings && (
+            <g className="wings animate-fade-out">
+              {/* wing paths */}
+            </g>
+          )}
         </g>
         <circle 
           className="spark-point"
