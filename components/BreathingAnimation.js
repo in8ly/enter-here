@@ -90,15 +90,20 @@ const BreathingAnimation = () => {
   }, [text]);
 
   useEffect(() => {
-    // Only start adventure sequence when we're ready (client-side)
     if (typeof window !== 'undefined') {
-      const adventureTimeout = setTimeout(() => {
-        setShowAdventure(true);
-      }, 22000);
+      const timestampTimeout = setTimeout(() => setShowTimestamp(true), 15000);
+      const phoenixTimeout = setTimeout(() => setShowPhoenixText(true), 18000);
+      const swirlsTimeout = setTimeout(() => setShowSwirls(true), 20000);
+      const adventureTimeout = setTimeout(() => setShowAdventure(true), 22000);
 
-      return () => clearTimeout(adventureTimeout);
+      return () => {
+        clearTimeout(timestampTimeout);
+        clearTimeout(phoenixTimeout);
+        clearTimeout(swirlsTimeout);
+        clearTimeout(adventureTimeout);
+      };
     }
-  }, []);
+  }, []); // Empty dependency array since these only need to run once
 
   const currentTime = new Date().toLocaleString('en-US', { 
     year: 'numeric',
