@@ -310,8 +310,11 @@ const BreathingAnimation = () => {
           </p>
         )}
         {showAdventure && (
-          <p className="text-sm h-6 animate-pulse text-golden-spark opacity-40 hover:opacity-60 transition-all duration-700">
-            Time to #choose-your-own-adventure {'>>'} * {'<<'} * {'<<'} * {'<<'}
+          <p className="text-sm h-6 animate-pulse text-lavender-mist opacity-40 hover:opacity-60 transition-all duration-700">
+            {'{FUNction chooseYourPath()} >>>'} 
+            <span className="text-golden-spark">*</span> {'<<<'} 
+            <span className="text-golden-spark">*</span> {'<<<'} 
+            <span className="text-golden-spark">*</span>
           </p>
         )}
       </div>
