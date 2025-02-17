@@ -10,6 +10,7 @@ const BreathingAnimation = () => {
   const [showPhoenixText, setShowPhoenixText] = useState(false);
   const [showAdventure, setShowAdventure] = useState(false);
   const [phoenixText, setPhoenixText] = useState('');
+  const [showWings, setShowWings] = useState(false);
   const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const fullText = '> hello.world[new]_';  // Changed welcome text
   const spaceBetweenText = '> welcome to liminal space_';
@@ -123,6 +124,16 @@ const BreathingAnimation = () => {
     }
   }, [showPhoenixText, phoenixText]);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Show wings briefly after phoenix appears
+      if (showPhoenixText) {
+        setShowWings(true);
+        setTimeout(() => setShowWings(false), 3000); // Wings visible for 3 seconds
+      }
+    }
+  }, [showPhoenixText]);
+
   const currentTime = new Date().toLocaleString('en-US', { 
     year: 'numeric',
     month: '2-digit',
@@ -165,11 +176,20 @@ const BreathingAnimation = () => {
           strokeWidth="1" 
           opacity="0.2"
         />
-        <g className="phoenix-rise">
+        <g className="phoenix-rise" 
+           style={{ 
+             opacity: showPhoenixText ? 1 : 0,
+             transition: 'opacity 0.7s ease-in-out' 
+           }}>
           <path d="M 200 170 L 230 200 L 200 230 L 170 200 Z" 
                 fill="none" 
                 stroke="var(--golden-spark)" 
                 strokeWidth="0.5" />
+          {showWings && (
+            <g className="wings animate-fade-out">
+              {/* Existing wing paths */}
+            </g>
+          )}
         </g>
         <g className="phoenix-center">
           <path 
