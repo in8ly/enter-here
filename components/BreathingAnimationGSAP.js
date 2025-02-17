@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 
-const BreathingAnimation = () => {
+const BreathingAnimationGSAP = () => {
   const containerRef = useRef(null);
   const waterCircleRef = useRef(null);
   const radiatingCircleRef = useRef(null);
   const wheelRef = useRef(null);
+  const [showPhoenix, setShowPhoenix] = useState(false);
+  const [showWings, setShowWings] = useState(false);
 
   useEffect(() => {
     // Create a master timeline for synchronized animations
@@ -34,19 +36,16 @@ const BreathingAnimation = () => {
       ease: "none"
     });
 
-    // Wheel rotation
-    gsap.to(wheelRef.current, {
-      rotation: 360,
-      duration: 12,
-      repeat: -1,
-      ease: "none",
-      transformOrigin: "center"
-    });
+    // Phoenix sequence
+    setTimeout(() => {
+      setShowPhoenix(true);
+      setTimeout(() => {
+        setShowWings(true);
+        setTimeout(() => setShowWings(false), 3000);
+      }, 500);
+    }, 18000);
 
-    // Cleanup
-    return () => {
-      masterTL.kill();
-    };
+    return () => masterTL.kill();
   }, []);
 
   return (
@@ -89,9 +88,37 @@ const BreathingAnimation = () => {
             className="opacity-50"
           />
         </g>
+
+        {/* Phoenix Diamond */}
+        {showPhoenix && (
+          <g className="phoenix-rise" style={{ opacity: showPhoenix ? 1 : 0 }}>
+            <path 
+              d="M 200 170 L 230 200 L 200 230 L 170 200 Z" 
+              fill="none" 
+              stroke="var(--golden-spark)" 
+              strokeWidth="0.5" 
+            />
+            {showWings && (
+              <g className="wings animate-fade-out">
+                <path 
+                  d="M 160 200 C 140 180 140 220 160 200" 
+                  stroke="var(--golden-spark)" 
+                  strokeWidth="0.3" 
+                  fill="none" 
+                />
+                <path 
+                  d="M 240 200 C 260 180 260 220 240 200" 
+                  stroke="var(--golden-spark)" 
+                  strokeWidth="0.3" 
+                  fill="none" 
+                />
+              </g>
+            )}
+          </g>
+        )}
       </svg>
     </div>
   );
 };
 
-export default BreathingAnimation;
+export default BreathingAnimationGSAP;
