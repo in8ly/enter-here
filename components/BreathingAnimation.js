@@ -54,66 +54,57 @@ const BreathingAnimation = () => {
           ease: "power2.inOut"
         }, "<");
     }
-
-    // Show royal blue swirls after 20 seconds
-    const swirlsTimeout = setTimeout(() => {
-      setShowSwirls(true);
-    }, 20000);
-
-    // Show timestamp after 15 seconds
-    const timestampTimeout = setTimeout(() => {
-      setShowTimestamp(true);
-    }, 15000);
-
-    // Show phoenix text after 18 seconds
-    const phoenixTimeout = setTimeout(() => {
-      setShowPhoenixText(true);
-    }, 18000);
-
-    // Show adventure text after 22 seconds
-    const adventureTimeout = setTimeout(() => {
-      setShowAdventure(true);
-    }, 22000);
-
-    // Typewriter effect
-    if (text.length < fullText.length) {
-      const timeout = setTimeout(() => {
-        setText(fullText.slice(0, text.length + 1));
-      }, 100);
-      return () => {
-        clearTimeout(timeout);
-        clearTimeout(timestampTimeout);
-        clearTimeout(swirlsTimeout);
-        clearTimeout(phoenixTimeout);
-        clearTimeout(adventureTimeout);
-      };
-    } else {
-      const cursorTimeout = setTimeout(() => setShowCursor(false), 1000);
-      return () => {
-        clearTimeout(cursorTimeout);
-        clearTimeout(timestampTimeout);
-        clearTimeout(swirlsTimeout);
-        clearTimeout(phoenixTimeout);
-        clearTimeout(adventureTimeout);
-      };
-    }
-  }, [text]);
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const timestampTimeout = setTimeout(() => setShowTimestamp(true), 15000);
-      const phoenixTimeout = setTimeout(() => setShowPhoenixText(true), 18000);
-      const swirlsTimeout = setTimeout(() => setShowSwirls(true), 20000);
-      const adventureTimeout = setTimeout(() => setShowAdventure(true), 22000);
+      // Initial state - hide phoenix
+      gsap.set(".phoenix-rise", { opacity: 0 });
+      gsap.set(".phoenix-center", { opacity: 0 });
+
+      // Create main timeline
+      const mainTl = gsap.timeline();
+
+      // Welcome text sequence
+      const textTl = gsap.timeline();
+      if (text.length < fullText.length) {
+        const timeout = setTimeout(() => {
+          setText(fullText.slice(0, text.length + 1));
+        }, 100);
+        return () => clearTimeout(timeout);
+      }
+
+      // Animation sequence
+      mainTl
+        .to(".liminal-circle", {
+          scale: 1.03,
+          opacity: 0.4,
+          duration: 4,
+          yoyo: true,
+          repeat: -1
+        })
+        .add(() => setShowTimestamp(true), 15)
+        .add(() => {
+          setShowPhoenixText(true);
+          gsap.to(".phoenix-rise", {
+            opacity: 1,
+            duration: 0.7,
+            onComplete: () => {
+              // Brief wing animation
+              setShowWings(true);
+              setTimeout(() => setShowWings(false), 3000);
+            }
+          });
+        }, 18)
+        .add(() => setShowSwirls(true), 20)
+        .add(() => setShowAdventure(true), 22);
 
       return () => {
-        clearTimeout(timestampTimeout);
-        clearTimeout(phoenixTimeout);
-        clearTimeout(swirlsTimeout);
-        clearTimeout(adventureTimeout);
+        mainTl.kill();
+        textTl.kill();
       };
     }
-  }, []); // Empty dependency array since these only need to run once
+  }, [text]);
 
   useEffect(() => {
     if (showPhoenixText && phoenixText.length < fullPhoenixText.length) {
@@ -123,16 +114,6 @@ const BreathingAnimation = () => {
       return () => clearTimeout(timeout);
     }
   }, [showPhoenixText, phoenixText]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Show wings briefly after phoenix appears
-      if (showPhoenixText) {
-        setShowWings(true);
-        setTimeout(() => setShowWings(false), 3000); // Wings visible for 3 seconds
-      }
-    }
-  }, [showPhoenixText]);
 
   const currentTime = new Date().toLocaleString('en-US', { 
     year: 'numeric',
@@ -176,18 +157,16 @@ const BreathingAnimation = () => {
           strokeWidth="1" 
           opacity="0.2"
         />
-        <g className="phoenix-rise" 
-           style={{ 
-             opacity: showPhoenixText ? 1 : 0,
-             transition: 'opacity 0.7s ease-in-out' 
-           }}>
-          <path d="M 200 170 L 230 200 L 200 230 L 170 200 Z" 
-                fill="none" 
-                stroke="var(--golden-spark)" 
-                strokeWidth="0.5" />
+        <g className="phoenix-rise" style={{ opacity: 0 }}>
+          <path 
+            d="M 200 170 L 230 200 L 200 230 L 170 200 Z" 
+            fill="none" 
+            stroke="var(--golden-spark)" 
+            strokeWidth="0.5" 
+          />
           {showWings && (
             <g className="wings animate-fade-out">
-              {/* Existing wing paths */}
+              {/* wing paths */}
             </g>
           )}
         </g>
