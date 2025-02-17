@@ -1,8 +1,6 @@
 import React from 'react';
-import BreathingAnimationGSAP from '../components/BreathingAnimationGSAP';
+import WelcomeSequence from '../components/WelcomeSequence';
 
-const LiminalAnimation = () => {
-  return <BreathingAnimationGSAP />;
-};
-
-export default LiminalAnimation;
+export default function Home() {
+  return <WelcomeSequence />;
+}
