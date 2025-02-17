@@ -12,7 +12,7 @@ const BreathingAnimation = () => {
   const [phoenixText, setPhoenixText] = useState('');
   const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const fullText = '> hello.world[new]_';  // Changed welcome text
-  const spaceBetweenText = 'a space between here and there';
+  const spaceBetweenText = '> welcome to liminal space_';
   const timeText = '> It is Now == ';
   const fullPhoenixText = '/* from ick to spark, the phoenix rises */';
   const ANIMATION_SEQUENCE = {
