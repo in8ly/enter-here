@@ -89,6 +89,17 @@ const BreathingAnimation = () => {
     }
   }, [text]);
 
+  useEffect(() => {
+    // Only start adventure sequence when we're ready (client-side)
+    if (typeof window !== 'undefined') {
+      const adventureTimeout = setTimeout(() => {
+        setShowAdventure(true);
+      }, 22000);
+
+      return () => clearTimeout(adventureTimeout);
+    }
+  }, []);
+
   const currentTime = new Date().toLocaleString('en-US', { 
     year: 'numeric',
     month: '2-digit',
