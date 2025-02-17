@@ -1,10 +1,14 @@
-import React from 'react';
-import BreathingAnimation from '../components/BreathingAnimation';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
 
-export default function Home() {
-    return (
-        <main className="min-h-screen">
-            <BreathingAnimation />
-        </main>
-    );
-}
+const LiminalAnimation = () => {
+  const containerRef = useRef(null);
+  const textRef = useRef(null);
+  
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Continuous animation loop (6 seconds total)
+      const mainTL = gsap.timeline({
+        repeat: -1,
+        defaults: { ease: "sine.inOut" }
+      });
