@@ -18,10 +18,12 @@ const BreathingAnimation = () => {
   const fullPhoenixText = '/* creating spaces where endings meet beginnings... */';
   const ANIMATION_SEQUENCE = {
     WELCOME: 0,           // Immediate
-    PHOENIX_DIAMOND: 18000,  // 18s - Diamond appears
-    PHOENIX_TEXT: 18500,     // 18.5s - Text types out after diamond
-    SWIRLS: 20000,          // 20s - More visible royal swirls
-    ADVENTURE: 22000        // 22s - Adventure invitation
+    LIMINAL_SPACE: 2000,  // 2s after welcome
+    TIMESTAMP: 6000,      // 6s
+    PHOENIX_DIAMOND: 18000,  // 18s
+    PHOENIX_TEXT: 18500,     // 18.5s
+    SWIRLS: 20000,          // 20s
+    ADVENTURE: 22000        // 22s
   };
 
   useEffect(() => {
