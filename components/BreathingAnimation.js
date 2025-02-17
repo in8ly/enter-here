@@ -7,6 +7,8 @@ const BreathingAnimation = () => {
   const [showCursor, setShowCursor] = useState(true);
   const [showTimestamp, setShowTimestamp] = useState(false);
   const [showSwirls, setShowSwirls] = useState(false);
+  const [showPhoenixText, setShowPhoenixText] = useState(false);
+  const [showAdventure, setShowAdventure] = useState(false);
   const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const fullText = '> welcome to liminal space_';
   const spaceBetweenText = 'a space between here and there';
@@ -53,6 +55,16 @@ const BreathingAnimation = () => {
       setShowTimestamp(true);
     }, 15000);
 
+    // Show phoenix text after 18 seconds
+    const phoenixTimeout = setTimeout(() => {
+      setShowPhoenixText(true);
+    }, 18000);
+
+    // Show adventure text after 22 seconds
+    const adventureTimeout = setTimeout(() => {
+      setShowAdventure(true);
+    }, 22000);
+
     // Typewriter effect
     if (text.length < fullText.length) {
       const timeout = setTimeout(() => {
@@ -62,6 +74,8 @@ const BreathingAnimation = () => {
         clearTimeout(timeout);
         clearTimeout(timestampTimeout);
         clearTimeout(swirlsTimeout);
+        clearTimeout(phoenixTimeout);
+        clearTimeout(adventureTimeout);
       };
     } else {
       const cursorTimeout = setTimeout(() => setShowCursor(false), 1000);
@@ -69,6 +83,8 @@ const BreathingAnimation = () => {
         clearTimeout(cursorTimeout);
         clearTimeout(timestampTimeout);
         clearTimeout(swirlsTimeout);
+        clearTimeout(phoenixTimeout);
+        clearTimeout(adventureTimeout);
       };
     }
   }, [text]);
@@ -285,14 +301,19 @@ const BreathingAnimation = () => {
       </svg>
 
       <div className="flex flex-col items-center gap-2 mt-8 font-mono">
-        {showAdventure && (
-          <p className="text-sm h-6 animate-pulse text-golden-spark opacity-40 hover:opacity-60 transition-all duration-700">
-            {adventureText}
+        <p className="text-ethereal-blue opacity-40 text-sm hover:opacity-60 transition-all duration-300">
+          /* between what was & what could be */
+        </p>
+        {showPhoenixText && (
+          <p className="text-sm h-6 animate-fade-in text-golden-spark opacity-40">
+            /* from ick to spark, the phoenix rises */
           </p>
         )}
-        <p className="text-ethereal-blue opacity-40 text-sm hover:opacity-60 transition-all duration-300">
-          {/* between what was & what could be */}
-        </p>
+        {showAdventure && (
+          <p className="text-sm h-6 animate-pulse text-golden-spark opacity-40 hover:opacity-60 transition-all duration-700">
+            Time to #choose-your-own-adventure {'>>'} * {'<<'} * {'<<'} * {'<<'}
+          </p>
+        )}
       </div>
       <div className="mt-8 font-mono text-ethereal-blue opacity-40 text-sm hover:opacity-60 transition-opacity">
         <p>/* from ick to spark, the phoenix rises */</p>
