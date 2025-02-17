@@ -359,6 +359,31 @@ const BreathingAnimation = () => {
             />
           </g>
         )}
+        <circle 
+          className="breathing-circle"
+          cx="200" cy="200" r="180" 
+          fill="none" 
+          stroke="var(--lavender-mist)" 
+          strokeWidth="1" 
+          opacity="0.2"
+        >
+          <animate 
+            attributeName="r" 
+            values="180;183;180" 
+            dur="8s" 
+            repeatCount="indefinite" 
+            calcMode="spline"
+            keySplines="0.4 0 0.6 1; 0.4 0 0.6 1"
+          />
+          <animate 
+            attributeName="opacity" 
+            values="0.2;0.3;0.2" 
+            dur="8s" 
+            repeatCount="indefinite" 
+            calcMode="spline"
+            keySplines="0.4 0 0.6 1; 0.4 0 0.6 1"
+          />
+        </circle>
       </svg>
 
       <div className="flex flex-col items-center gap-2 mt-8 font-mono">
