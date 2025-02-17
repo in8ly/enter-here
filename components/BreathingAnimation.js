@@ -13,8 +13,8 @@ const BreathingAnimation = () => {
   const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const fullText = '> hello.world[new]_';  // Changed welcome text
   const spaceBetweenText = '> welcome to liminal space_';
-  const timeText = '> It is Now == ';
-  const fullPhoenixText = '/* from ick to spark, the phoenix rises */';
+  const timeText = '> it is now === ';
+  const fullPhoenixText = '/* creating spaces where endings meet beginnings... */';
   const ANIMATION_SEQUENCE = {
     WELCOME: 0,           // Immediate
     PHOENIX_DIAMOND: 18000,  // 18s - Diamond appears
