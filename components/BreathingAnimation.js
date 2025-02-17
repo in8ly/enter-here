@@ -9,10 +9,19 @@ const BreathingAnimation = () => {
   const [showSwirls, setShowSwirls] = useState(false);
   const [showPhoenixText, setShowPhoenixText] = useState(false);
   const [showAdventure, setShowAdventure] = useState(false);
+  const [phoenixText, setPhoenixText] = useState('');
   const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const fullText = '> welcome to liminal space_';
+  const fullText = '> hello.world[new]_';  // Changed welcome text
   const spaceBetweenText = 'a space between here and there';
   const timeText = '> It is Now == ';
+  const fullPhoenixText = '/* from ick to spark, the phoenix rises */';
+  const ANIMATION_SEQUENCE = {
+    WELCOME: 0,           // Immediate
+    PHOENIX_DIAMOND: 18000,  // 18s - Diamond appears
+    PHOENIX_TEXT: 18500,     // 18.5s - Text types out after diamond
+    SWIRLS: 20000,          // 20s - More visible royal swirls
+    ADVENTURE: 22000        // 22s - Adventure invitation
+  };
 
   useEffect(() => {
     if (isIOS) {
@@ -104,6 +113,15 @@ const BreathingAnimation = () => {
       };
     }
   }, []); // Empty dependency array since these only need to run once
+
+  useEffect(() => {
+    if (showPhoenixText && phoenixText.length < fullPhoenixText.length) {
+      const timeout = setTimeout(() => {
+        setPhoenixText(fullPhoenixText.slice(0, phoenixText.length + 1));
+      }, 100);
+      return () => clearTimeout(timeout);
+    }
+  }, [showPhoenixText, phoenixText]);
 
   const currentTime = new Date().toLocaleString('en-US', { 
     year: 'numeric',
@@ -301,16 +319,16 @@ const BreathingAnimation = () => {
             <path
               d="M 200 200 Q 300 100 200 50 T 200 0"
               fill="none"
-              stroke="#1a237e"
-              strokeWidth="0.4"
-              opacity="0.12"
+              stroke="var(--ethereal-blue)"  // Changed from #1a237e
+              strokeWidth="0.5"              // Increased from 0.4
+              opacity="0.25"                 // Increased from 0.12
             />
             <path
               d="M 200 200 Q 100 300 50 200 T 0 200"
               fill="none"
-              stroke="#1a237e"
-              strokeWidth="0.4"
-              opacity="0.12"
+              stroke="var(--ethereal-blue)"  // Changed from #1a237e
+              strokeWidth="0.5"              // Increased from 0.4
+              opacity="0.25"                 // Increased from 0.12
             />
           </g>
         )}
@@ -321,8 +339,8 @@ const BreathingAnimation = () => {
           /* between what was & what could be */
         </p>
         {showPhoenixText && (
-          <p className="text-sm h-6 animate-fade-in text-golden-spark opacity-40">
-            /* from ick to spark, the phoenix rises */
+          <p className="text-sm h-6 animate-typewriter text-golden-spark opacity-40">
+            {phoenixText}
           </p>
         )}
         {showAdventure && (
