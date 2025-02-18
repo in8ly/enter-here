@@ -145,3 +145,30 @@ public/
 - Original "When Ick Met Spark" story
 - Waterwheel Nexus framework
 - Exit Matters workshop connections
+
+# Development Journey
+
+## Commit Style Guide
+```git
+# Technical + Transformative Format
+<type>: <description> - <transformative context>
+
+# Examples
+docs: integrate coding standards - recoding possibility
+feat: add liminal animation - between worlds
+fix: resolve timing sequence - healing connection
+```
+
+## Current Status
+- Philosophy integrated with technical docs ✨
+- Clear path forward established 🛠️
+- Meaningful commit messages reflecting journey 🌟
+
+## Next Commit Pattern
+```powershell
+# In VS Code terminal
+git add .
+git commit -m "type: clear intention - transformative context"
+```
+
+Remember: Each commit tells part of the transformation story
