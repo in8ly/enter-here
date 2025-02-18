@@ -1,5 +1,32 @@
 # Project Notes - Enter Here
 
+## Development Philosophy
+- Code as creative expression
+- Technical depth reflects transformation theme
+- "Recoding the future" through hands-on development
+- Building bridges between tech and healing work
+
+## Style Guide
+### Code Block Format
+```javascript
+// filepath: /components/Example.js
+import React from 'react';
+
+// ...existing code...
+```
+
+### Environment Setup
+- IDE: Visual Studio Code
+- OS: Windows
+- Terminal: PowerShell in VS Code
+- Framework: Next.js with React
+
+### Documentation Standards
+- Use Markdown for all documentation
+- Include file paths when referencing code
+- Keep code blocks focused and clean
+- Include purpose/context comments
+
 ## Animation Components
 
 ### Liminal Space Animation
@@ -56,11 +83,11 @@ public/
   └── liminal-animation.mp4 // Coming soon
 ```
 
-### Next Steps
-1. Record animation using OBS
-2. Place in `/public` folder
-3. Enhance text sequences
-4. Test responsive behavior
+## Next Steps
+1. Continue with current codebase
+2. Record animation in OBS
+3. Integrate video component
+4. Deploy via Vercel
 
 ### Future Integration
 - Connect to Waterwheel Nexus landing page
