@@ -172,3 +172,23 @@ git commit -m "type: clear intention - transformative context"
 ```
 
 Remember: Each commit tells part of the transformation story
+
+## Open Source Philosophy
+- Documentation as public art
+- Code comments as poetry
+- Commit messages as transformation markers
+- Technical specs meeting spiritual practice
+
+### For Fellow Tech Explorers
+```javascript
+// Welcome to this liminal space between
+// technical precision and transformative practice
+// Feel free to fork this journey
+// Or create your own path of recoding possibility
+```
+
+### Building in Public
+- Repository serves as both documentation and inspiration
+- Each commit tells part of the transformation story
+- Technical choices reflect deeper intentions
+- Open invitation for community engagement
