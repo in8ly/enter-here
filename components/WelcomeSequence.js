@@ -94,7 +94,7 @@ const ThresholdSequence = () => {
   if (waterwheelComplete) {
     return (
       <div 
-        className="min-h-screen flex items-center justify-center bg-[#0c0a1d] overflow-hidden"
+        className="min-h-screen flex items-center justify-center bg-[#000000] overflow-hidden"
         style={{
           opacity: tulipFadeIn ? 1 : 0,
           transition: 'opacity 3s ease-in-out'
@@ -545,62 +545,80 @@ const WaterwheelBreath = () => {
   );
 };
 
-// Tulip Interior - Sacred geometry in the womb-space
+// Tulip Interior - Sacred geometry in the dark spectrum
 const TulipInterior = () => {
+  const [revelation, setRevelation] = useState(0);
+
+  // Eyes adjust - the longer you stay, the more you see
+  useEffect(() => {
+    const startTime = Date.now();
+    const revealDuration = 60000; // 60 seconds to full revelation
+
+    const adjustEyes = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / revealDuration, 1);
+      // Exponential curve - slow at first, gradually more visible
+      setRevelation(Math.pow(progress, 0.7));
+    };
+
+    const interval = setInterval(adjustEyes, 100);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" className="w-full h-full max-w-4xl">
         <defs>
-          {/* Womb-light: filtered through living tissue */}
-          <radialGradient id="wombLight" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" style={{stopColor:'#fef3c7', stopOpacity:0.4}}/>
-            <stop offset="40%" style={{stopColor:'#f5d0fe', stopOpacity:0.25}}/>
-            <stop offset="70%" style={{stopColor:'#7c3aed', stopOpacity:0.15}}/>
-            <stop offset="100%" style={{stopColor:'#1e1b4b', stopOpacity:0.95}}/>
+          {/* The void foundation - warming slightly as eyes adjust */}
+          <radialGradient id="voidDepth" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" style={{stopColor:'#1a1a1a', stopOpacity:0.3 + revelation * 0.15}}/>
+            <stop offset="40%" style={{stopColor:'#0d0d0d', stopOpacity:0.5 + revelation * 0.2}}/>
+            <stop offset="70%" style={{stopColor:'#0a0a0a', stopOpacity:0.7 + revelation * 0.15}}/>
+            <stop offset="100%" style={{stopColor:'#000000', stopOpacity:1}}/>
           </radialGradient>
           
-          {/* Holographic membrane shimmer */}
-          <linearGradient id="holoShimmer" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{stopColor:'#d946ef', stopOpacity:0.3}}>
-              <animate attributeName="stop-color" values="#d946ef;#06b6d4;#fbbf24;#d946ef" dur="12s" repeatCount="indefinite"/>
+          {/* Obsidian shimmer - barely visible movements */}
+          <linearGradient id="obsidianShimmer" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style={{stopColor:'#171717', stopOpacity:0.15 + revelation * 0.12}}>
+              <animate attributeName="stop-color" values="#171717;#1f1f1f;#1a1a1a;#171717" dur="20s" repeatCount="indefinite"/>
             </stop>
-            <stop offset="50%" style={{stopColor:'#fbbf24', stopOpacity:0.2}}>
-              <animate attributeName="stop-color" values="#fbbf24;#d946ef;#86efac;#fbbf24" dur="12s" repeatCount="indefinite"/>
+            <stop offset="50%" style={{stopColor:'#1d1d1d', stopOpacity:0.1 + revelation * 0.1}}>
+              <animate attributeName="stop-color" values="#1d1d1d;#262626;#1a1a1a;#1d1d1d" dur="20s" repeatCount="indefinite"/>
             </stop>
-            <stop offset="100%" style={{stopColor:'#06b6d4', stopOpacity:0.3}}>
-              <animate attributeName="stop-color" values="#06b6d4;#86efac;#d946ef;#06b6d4" dur="12s" repeatCount="indefinite"/>
+            <stop offset="100%" style={{stopColor:'#1a1a1a', stopOpacity:0.12 + revelation * 0.13}}>
+              <animate attributeName="stop-color" values="#1a1a1a;#2a2a2a;#171717;#1a1a1a" dur="20s" repeatCount="indefinite"/>
             </stop>
           </linearGradient>
           
-          {/* Plum depth */}
-          <radialGradient id="plumDepth" cx="30%" cy="30%" r="70%">
-            <stop offset="0%" style={{stopColor:'#ddd6fe', stopOpacity:0.2}}/>
-            <stop offset="60%" style={{stopColor:'#7c3aed', stopOpacity:0.15}}/>
-            <stop offset="100%" style={{stopColor:'#3b0764', stopOpacity:0.3}}/>
+          {/* Cool obsidian depth */}
+          <radialGradient id="obsidianDepth" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" style={{stopColor:'#1f1f1f', stopOpacity:0.08 + revelation * 0.1}}/>
+            <stop offset="60%" style={{stopColor:'#0d0d0d', stopOpacity:0.12 + revelation * 0.08}}/>
+            <stop offset="100%" style={{stopColor:'#050505', stopOpacity:0.2 + revelation * 0.15}}/>
           </radialGradient>
           
-          {/* Light green elemental glow */}
-          <radialGradient id="elementalGlow">
-            <stop offset="0%" style={{stopColor:'#bbf7d0', stopOpacity:0.9}}/>
-            <stop offset="50%" style={{stopColor:'#86efac', stopOpacity:0.4}}/>
-            <stop offset="100%" style={{stopColor:'#86efac', stopOpacity:0}}/>
+          {/* Graphite glow - subtle elemental presence */}
+          <radialGradient id="graphiteGlow">
+            <stop offset="0%" style={{stopColor:'#2d2d2d', stopOpacity:0.3 + revelation * 0.4}}/>
+            <stop offset="50%" style={{stopColor:'#2a2a2a', stopOpacity:0.15 + revelation * 0.2}}/>
+            <stop offset="100%" style={{stopColor:'#1a1a1a', stopOpacity:0}}/>
           </radialGradient>
           
-          {/* Gold presence */}
-          <radialGradient id="goldPresence">
-            <stop offset="0%" style={{stopColor:'#fef3c7', stopOpacity:0.95}}/>
-            <stop offset="40%" style={{stopColor:'#fbbf24', stopOpacity:0.5}}/>
-            <stop offset="100%" style={{stopColor:'#fbbf24', stopOpacity:0}}/>
+          {/* Charcoal presence - warm blacks */}
+          <radialGradient id="charcoalPresence">
+            <stop offset="0%" style={{stopColor:'#262626', stopOpacity:0.4 + revelation * 0.45}}/>
+            <stop offset="40%" style={{stopColor:'#1d1d1d', stopOpacity:0.2 + revelation * 0.25}}/>
+            <stop offset="100%" style={{stopColor:'#1a1a1a', stopOpacity:0}}/>
           </radialGradient>
           
-          {/* Soft filter for womb-space */}
+          {/* Soft blur for dark forms */}
           <filter id="softHold" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
           </filter>
           
-          {/* Subtle glow */}
+          {/* Barely-there glow */}
           <filter id="gentleGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feGaussianBlur stdDeviation="3" result="blur"/>
             <feMerge>
               <feMergeNode in="blur"/>
               <feMergeNode in="SourceGraphic"/>
@@ -608,138 +626,138 @@ const TulipInterior = () => {
           </filter>
         </defs>
         
-        {/* The interior: we are inside the closed tulip */}
-        <rect width="800" height="800" fill="#0c0a1d"/>
-        <rect width="800" height="800" fill="url(#wombLight)"/>
-        <rect width="800" height="800" fill="url(#plumDepth)"/>
+        {/* The void - pure black foundation */}
+        <rect width="800" height="800" fill="#000000"/>
+        <rect width="800" height="800" fill="url(#voidDepth)"/>
+        <rect width="800" height="800" fill="url(#obsidianDepth)"/>
         
-        {/* The petals curved around us */}
-        <ellipse cx="400" cy="400" rx="380" ry="390" fill="none" stroke="url(#holoShimmer)" strokeWidth="1" opacity="0.3">
+        {/* The petals - shadow on shadow */}
+        <ellipse cx="400" cy="400" rx="380" ry="390" fill="none" stroke="url(#obsidianShimmer)" strokeWidth="1" opacity={0.15 + revelation * 0.2}>
           <animate attributeName="rx" values="380;385;380" dur="8s" repeatCount="indefinite"/>
           <animate attributeName="ry" values="390;395;390" dur="8s" repeatCount="indefinite"/>
         </ellipse>
         
-        {/* Second petal layer */}
-        <ellipse cx="400" cy="400" rx="320" ry="340" fill="none" stroke="url(#holoShimmer)" strokeWidth="0.5" opacity="0.2">
+        {/* Second petal layer - barely perceptible */}
+        <ellipse cx="400" cy="400" rx="320" ry="340" fill="none" stroke="url(#obsidianShimmer)" strokeWidth="0.5" opacity={0.1 + revelation * 0.15}>
           <animate attributeName="rx" values="320;325;320" dur="7s" begin="1s" repeatCount="indefinite"/>
           <animate attributeName="ry" values="340;345;340" dur="7s" begin="1s" repeatCount="indefinite"/>
         </ellipse>
         
-        {/* Vesica piscis - sacred almond */}
-        <g opacity="0.25" filter="url(#gentleGlow)">
-          <circle cx="340" cy="400" r="120" fill="none" stroke="#fbbf24" strokeWidth="0.75" opacity="0">
-            <animate attributeName="opacity" values="0;0.4;0.4;0" dur="15s" repeatCount="indefinite"/>
+        {/* Vesica piscis - sacred almond in charcoal */}
+        <g opacity={0.12 + revelation * 0.25} filter="url(#gentleGlow)">
+          <circle cx="340" cy="400" r="120" fill="none" stroke="#1d1d1d" strokeWidth="0.75" opacity="0">
+            <animate attributeName="opacity" values="0;0.25;0.25;0" dur="15s" repeatCount="indefinite"/>
           </circle>
-          <circle cx="460" cy="400" r="120" fill="none" stroke="#fbbf24" strokeWidth="0.75" opacity="0">
-            <animate attributeName="opacity" values="0;0.4;0.4;0" dur="15s" repeatCount="indefinite"/>
+          <circle cx="460" cy="400" r="120" fill="none" stroke="#1d1d1d" strokeWidth="0.75" opacity="0">
+            <animate attributeName="opacity" values="0;0.25;0.25;0" dur="15s" repeatCount="indefinite"/>
           </circle>
-          <path d="M400,280 Q340,400 400,520 Q460,400 400,280" fill="none" stroke="#fef3c7" strokeWidth="1" opacity="0">
-            <animate attributeName="opacity" values="0;0;0.6;0.6;0" dur="15s" repeatCount="indefinite"/>
+          <path d="M400,280 Q340,400 400,520 Q460,400 400,280" fill="none" stroke="#262626" strokeWidth="1" opacity="0">
+            <animate attributeName="opacity" values="0;0;0.3;0.3;0" dur="15s" repeatCount="indefinite"/>
           </path>
         </g>
         
-        {/* Lemniscate/Möbius */}
-        <g opacity="0.35" filter="url(#softHold)">
+        {/* Lemniscate/Möbius - shadow ink */}
+        <g opacity={0.15 + revelation * 0.25} filter="url(#softHold)">
           <path d="M280,400 C280,340 360,340 400,400 C440,460 520,460 520,400 C520,340 440,340 400,400 C360,460 280,460 280,400" 
-                fill="none" stroke="#d946ef" strokeWidth="1.5" opacity="0">
-            <animate attributeName="opacity" values="0;0.5;0.5;0" dur="18s" repeatCount="indefinite"/>
-            <animate attributeName="stroke" values="#d946ef;#06b6d4;#86efac;#d946ef" dur="18s" repeatCount="indefinite"/>
+                fill="none" stroke="#171717" strokeWidth="1.5" opacity="0">
+            <animate attributeName="opacity" values="0;0.3;0.3;0" dur="18s" repeatCount="indefinite"/>
+            <animate attributeName="stroke" values="#171717;#1f1f1f;#2a2a2a;#171717" dur="18s" repeatCount="indefinite"/>
             <animateTransform attributeName="transform" type="rotate" values="0 400 400;180 400 400;360 400 400" dur="40s" repeatCount="indefinite"/>
           </path>
         </g>
         
-        {/* Plasma symbol */}
+        {/* Plasma symbol - graphite */}
         <g opacity="0" filter="url(#gentleGlow)">
-          <animate attributeName="opacity" values="0;0;0.3;0.3;0" dur="20s" begin="5s" repeatCount="indefinite"/>
-          <ellipse cx="400" cy="350" rx="40" ry="15" fill="none" stroke="#86efac" strokeWidth="1"/>
-          <ellipse cx="400" cy="400" rx="50" ry="18" fill="none" stroke="#86efac" strokeWidth="1"/>
-          <ellipse cx="400" cy="450" rx="40" ry="15" fill="none" stroke="#86efac" strokeWidth="1"/>
-          <line x1="400" y1="320" x2="400" y2="480" stroke="#86efac" strokeWidth="0.5" opacity="0.5"/>
+          <animate attributeName="opacity" values="0;0;0.15;0.15;0" dur="20s" begin="5s" repeatCount="indefinite"/>
+          <ellipse cx="400" cy="350" rx="40" ry="15" fill="none" stroke="#2a2a2a" strokeWidth="1"/>
+          <ellipse cx="400" cy="400" rx="50" ry="18" fill="none" stroke="#2a2a2a" strokeWidth="1"/>
+          <ellipse cx="400" cy="450" rx="40" ry="15" fill="none" stroke="#2a2a2a" strokeWidth="1"/>
+          <line x1="400" y1="320" x2="400" y2="480" stroke="#2a2a2a" strokeWidth="0.5" opacity="0.5"/>
         </g>
         
-        {/* FIREFLIES - syncopated bells */}
-        {/* Gold fireflies */}
-        <circle cx="350" cy="380" r="3" fill="url(#goldPresence)" opacity="0">
-          <animate attributeName="opacity" values="0;0.9;0.9;0" dur="3s" repeatCount="indefinite"/>
+        {/* FIREFLIES - barely-there pulses in the dark */}
+        {/* Charcoal warmth */}
+        <circle cx="350" cy="380" r="3" fill="url(#charcoalPresence)" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.3 + revelation * 0.4};${0.3 + revelation * 0.4};0`} dur="3s" repeatCount="indefinite"/>
           <animate attributeName="r" values="3;4;3" dur="3s" repeatCount="indefinite"/>
         </circle>
         
-        <circle cx="450" cy="420" r="2.5" fill="url(#goldPresence)" opacity="0">
-          <animate attributeName="opacity" values="0;0.8;0.8;0" dur="4s" begin="1.3s" repeatCount="indefinite"/>
+        <circle cx="450" cy="420" r="2.5" fill="url(#charcoalPresence)" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.25 + revelation * 0.35};${0.25 + revelation * 0.35};0`} dur="4s" begin="1.3s" repeatCount="indefinite"/>
           <animate attributeName="r" values="2.5;3.5;2.5" dur="4s" begin="1.3s" repeatCount="indefinite"/>
         </circle>
         
-        {/* Holographic fireflies */}
-        <circle cx="300" cy="320" r="2" fill="#d946ef" opacity="0">
-          <animate attributeName="opacity" values="0;0.7;0" dur="5s" begin="0.7s" repeatCount="indefinite"/>
-          <animate attributeName="fill" values="#d946ef;#06b6d4;#d946ef" dur="5s" begin="0.7s" repeatCount="indefinite"/>
+        {/* Shadow movements */}
+        <circle cx="300" cy="320" r="2" fill="#171717" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.2 + revelation * 0.3};0`} dur="5s" begin="0.7s" repeatCount="indefinite"/>
+          <animate attributeName="fill" values="#171717;#1f1f1f;#171717" dur="5s" begin="0.7s" repeatCount="indefinite"/>
         </circle>
         
-        <circle cx="500" cy="480" r="2" fill="#06b6d4" opacity="0">
-          <animate attributeName="opacity" values="0;0.6;0" dur="4.5s" begin="2.1s" repeatCount="indefinite"/>
-          <animate attributeName="fill" values="#06b6d4;#fbbf24;#06b6d4" dur="4.5s" begin="2.1s" repeatCount="indefinite"/>
+        <circle cx="500" cy="480" r="2" fill="#1a1a1a" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.18 + revelation * 0.28};0`} dur="4.5s" begin="2.1s" repeatCount="indefinite"/>
+          <animate attributeName="fill" values="#1a1a1a;#262626;#1a1a1a" dur="4.5s" begin="2.1s" repeatCount="indefinite"/>
         </circle>
         
-        {/* Elemental green */}
-        <circle cx="420" cy="350" r="2" fill="url(#elementalGlow)" opacity="0">
-          <animate attributeName="opacity" values="0;0.8;0.8;0" dur="3.7s" begin="0.5s" repeatCount="indefinite"/>
+        {/* Graphite elemental */}
+        <circle cx="420" cy="350" r="2" fill="url(#graphiteGlow)" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.22 + revelation * 0.35};${0.22 + revelation * 0.35};0`} dur="3.7s" begin="0.5s" repeatCount="indefinite"/>
         </circle>
         
-        <circle cx="380" cy="450" r="1.5" fill="url(#elementalGlow)" opacity="0">
-          <animate attributeName="opacity" values="0;0.7;0" dur="4.2s" begin="1.8s" repeatCount="indefinite"/>
+        <circle cx="380" cy="450" r="1.5" fill="url(#graphiteGlow)" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.2 + revelation * 0.3};0`} dur="4.2s" begin="1.8s" repeatCount="indefinite"/>
         </circle>
         
-        {/* Distant fireflies */}
-        <circle cx="250" cy="280" r="1.5" fill="#fef3c7" opacity="0">
-          <animate attributeName="opacity" values="0;0.4;0" dur="6s" begin="0.3s" repeatCount="indefinite"/>
+        {/* Distant velvet */}
+        <circle cx="250" cy="280" r="1.5" fill="#262626" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.12 + revelation * 0.18};0`} dur="6s" begin="0.3s" repeatCount="indefinite"/>
         </circle>
         
-        <circle cx="550" cy="300" r="1" fill="#fef3c7" opacity="0">
-          <animate attributeName="opacity" values="0;0.3;0" dur="7s" begin="2.5s" repeatCount="indefinite"/>
+        <circle cx="550" cy="300" r="1" fill="#2a2a2a" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.1 + revelation * 0.15};0`} dur="7s" begin="2.5s" repeatCount="indefinite"/>
         </circle>
         
-        <circle cx="520" cy="520" r="1.5" fill="#ddd6fe" opacity="0">
-          <animate attributeName="opacity" values="0;0.35;0" dur="5.5s" begin="3.2s" repeatCount="indefinite"/>
+        <circle cx="520" cy="520" r="1.5" fill="#1f1f1f" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.11 + revelation * 0.16};0`} dur="5.5s" begin="3.2s" repeatCount="indefinite"/>
         </circle>
         
-        <circle cx="280" cy="500" r="1" fill="#ddd6fe" opacity="0">
-          <animate attributeName="opacity" values="0;0.3;0" dur="6.5s" begin="4s" repeatCount="indefinite"/>
+        <circle cx="280" cy="500" r="1" fill="#1d1d1d" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.1 + revelation * 0.14};0`} dur="6.5s" begin="4s" repeatCount="indefinite"/>
         </circle>
         
-        {/* Very distant */}
-        <circle cx="200" cy="350" r="1" fill="#fff" opacity="0">
-          <animate attributeName="opacity" values="0;0.2;0" dur="8s" begin="1s" repeatCount="indefinite"/>
+        {/* Very distant - barely there */}
+        <circle cx="200" cy="350" r="1" fill="#333333" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.08 + revelation * 0.12};0`} dur="8s" begin="1s" repeatCount="indefinite"/>
         </circle>
         
-        <circle cx="600" cy="400" r="1" fill="#fff" opacity="0">
-          <animate attributeName="opacity" values="0;0.2;0" dur="9s" begin="3s" repeatCount="indefinite"/>
+        <circle cx="600" cy="400" r="1" fill="#3a3a3a" opacity="0">
+          <animate attributeName="opacity" values={`0;${0.08 + revelation * 0.12};0`} dur="9s" begin="3s" repeatCount="indefinite"/>
         </circle>
         
-        {/* The membrane */}
-        <g opacity="0.15">
-          <circle cx="400" cy="400" r="150" fill="none" stroke="#fef3c7" strokeWidth="0.5">
+        {/* The membrane - ink on void */}
+        <g opacity={0.08 + revelation * 0.12}>
+          <circle cx="400" cy="400" r="150" fill="none" stroke="#262626" strokeWidth="0.5">
             <animate attributeName="r" values="150;160;150" dur="6s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values="0.3;0.5;0.3" dur="6s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.15;0.25;0.15" dur="6s" repeatCount="indefinite"/>
           </circle>
         </g>
         
-        {/* Center point - the still point */}
-        <circle cx="400" cy="400" r="5" fill="url(#goldPresence)" opacity="0.6" filter="url(#gentleGlow)">
+        {/* Center point - the watching presence */}
+        <circle cx="400" cy="400" r="5" fill="url(#charcoalPresence)" opacity={0.25 + revelation * 0.35} filter="url(#gentleGlow)">
           <animate attributeName="r" values="5;7;5" dur="8s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.6;0.8;0.6" dur="8s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values={`${0.25 + revelation * 0.35};${0.35 + revelation * 0.45};${0.25 + revelation * 0.35}`} dur="8s" repeatCount="indefinite"/>
         </circle>
         
-        {/* Closed petals above */}
-        <path d="M250,200 Q400,150 550,200" fill="none" stroke="url(#holoShimmer)" strokeWidth="0.5" opacity="0.15">
+        {/* Closed petals above - shadow folds */}
+        <path d="M250,200 Q400,150 550,200" fill="none" stroke="url(#obsidianShimmer)" strokeWidth="0.5" opacity={0.08 + revelation * 0.12}>
           <animate attributeName="d" values="M250,200 Q400,150 550,200;M250,200 Q400,140 550,200;M250,200 Q400,150 550,200" dur="10s" repeatCount="indefinite"/>
         </path>
         
-        <path d="M220,250 Q400,180 580,250" fill="none" stroke="url(#holoShimmer)" strokeWidth="0.5" opacity="0.1">
+        <path d="M220,250 Q400,180 580,250" fill="none" stroke="url(#obsidianShimmer)" strokeWidth="0.5" opacity={0.06 + revelation * 0.1}>
           <animate attributeName="d" values="M220,250 Q400,180 580,250;M220,250 Q400,170 580,250;M220,250 Q400,180 580,250" dur="11s" begin="0.5s" repeatCount="indefinite"/>
         </path>
         
-        {/* The base where we rest */}
-        <path d="M280,580 Q400,620 520,580" fill="none" stroke="#7c3aed" strokeWidth="0.5" opacity="0.1">
+        {/* The base where we rest - velvet darkness */}
+        <path d="M280,580 Q400,620 520,580" fill="none" stroke="#0d0d0d" strokeWidth="0.5" opacity={0.06 + revelation * 0.09}>
           <animate attributeName="d" values="M280,580 Q400,620 520,580;M280,580 Q400,630 520,580;M280,580 Q400,620 520,580" dur="9s" repeatCount="indefinite"/>
         </path>
       </svg>
