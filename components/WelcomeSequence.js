@@ -334,38 +334,76 @@ const GlitchingRelic = () => {
   const [visible, setVisible] = useState(true);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [falling, setFalling] = useState(false);
+  const [transformed, setTransformed] = useState(false);
 
   useEffect(() => {
     const glitchInterval = setInterval(() => {
-      setVisible(Math.random() > 0.3);
-      setPosition({
-        x: (Math.random() - 0.5) * 2,
-        y: (Math.random() - 0.5) * 2
-      });
+      if (!falling) {
+        setVisible(Math.random() > 0.3);
+        setPosition({
+          x: (Math.random() - 0.5) * 2,
+          y: (Math.random() - 0.5) * 2
+        });
+      }
     }, 150);
 
-    // Start falling after 10 seconds
+    // Start falling after 8 seconds
     const fallTimer = setTimeout(() => {
       setFalling(true);
+    }, 8000);
+
+    // Transform into light after landing
+    const transformTimer = setTimeout(() => {
+      setTransformed(true);
     }, 10000);
 
     return () => {
       clearInterval(glitchInterval);
       clearTimeout(fallTimer);
+      clearTimeout(transformTimer);
     };
-  }, []);
+  }, [falling]);
+
+  if (transformed) {
+    return (
+      <div 
+        className="absolute pointer-events-none"
+        style={{
+          top: 'calc(100vh - 140px)',
+          left: '32px',
+        }}
+      >
+        <div 
+          className="w-2 h-2 rounded-full bg-[#fbbf24]"
+          style={{
+            opacity: 0,
+            animation: 'glimmer 4s ease-in-out infinite',
+            boxShadow: '0 0 20px rgba(251, 191, 36, 0.6), 0 0 40px rgba(251, 191, 36, 0.3)',
+          }}
+        />
+        <style jsx>{`
+          @keyframes glimmer {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.5); }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div 
       className="absolute font-mono text-[#a3d4e5] text-xs pointer-events-none"
       style={{
-        top: falling ? 'calc(100vh - 120px)' : '32px',
-        left: falling ? '50%' : '32px',
+        top: falling ? 'calc(100vh - 140px)' : '32px',
+        left: '32px',
         transform: falling 
-          ? 'translate(-50%, 0) rotate(0deg)' 
+          ? 'rotate(0deg)' 
           : `translate(${position.x}px, ${position.y}px) rotate(-3deg)`,
-        opacity: visible ? (falling ? 0.5 : 0.3) : 0.1,
-        transition: falling ? 'top 2s cubic-bezier(0.34, 1.56, 0.64, 1), left 2s ease-out, transform 2s ease-out, opacity 0.05s' : 'opacity 0.05s',
+        opacity: falling ? 0 : (visible ? 0.3 : 0.1),
+        transition: falling 
+          ? 'top 1.5s cubic-bezier(0.4, 0, 0.6, 1), opacity 1.5s ease-out, transform 1.5s ease-out' 
+          : 'opacity 0.05s',
         textShadow: visible ? '0 0 8px rgba(163, 212, 229, 0.3)' : 'none'
       }}
     >
