@@ -121,17 +121,8 @@ const ThresholdSequence = () => {
 
   if (waterwheelComplete) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#2a3831]">
-        <a 
-          href="https://in8ly.com" 
-          className="text-[#a3d4e5] opacity-60 hover:opacity-100 transition-opacity duration-1000 font-mono text-sm"
-          style={{ 
-            animation: 'fadeIn 3s ease-out',
-            textShadow: '0 0 20px rgba(163, 212, 229, 0.4)'
-          }}
-        >
-          /* enter */
-        </a>
+      <div className="min-h-screen flex items-center justify-center bg-[#0c0a1d] overflow-hidden">
+        <TulipInterior />
       </div>
     );
   }
@@ -626,6 +617,208 @@ const WaterwheelBreath = () => {
             />
           </circle>
         </g>
+      </svg>
+    </div>
+  );
+};
+
+// Tulip Interior - Sacred geometry in the womb-space
+const TulipInterior = () => {
+  return (
+    <div className="w-full h-screen flex items-center justify-center">
+      <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" className="w-full h-full max-w-4xl">
+        <defs>
+          {/* Womb-light: filtered through living tissue */}
+          <radialGradient id="wombLight" cx="50%" cy="50%" r="60%">
+            <stop offset="0%" style={{stopColor:'#fef3c7', stopOpacity:0.4}}/>
+            <stop offset="40%" style={{stopColor:'#f5d0fe', stopOpacity:0.25}}/>
+            <stop offset="70%" style={{stopColor:'#7c3aed', stopOpacity:0.15}}/>
+            <stop offset="100%" style={{stopColor:'#1e1b4b', stopOpacity:0.95}}/>
+          </radialGradient>
+          
+          {/* Holographic membrane shimmer */}
+          <linearGradient id="holoShimmer" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style={{stopColor:'#d946ef', stopOpacity:0.3}}>
+              <animate attributeName="stop-color" values="#d946ef;#06b6d4;#fbbf24;#d946ef" dur="12s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="50%" style={{stopColor:'#fbbf24', stopOpacity:0.2}}>
+              <animate attributeName="stop-color" values="#fbbf24;#d946ef;#86efac;#fbbf24" dur="12s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="100%" style={{stopColor:'#06b6d4', stopOpacity:0.3}}>
+              <animate attributeName="stop-color" values="#06b6d4;#86efac;#d946ef;#06b6d4" dur="12s" repeatCount="indefinite"/>
+            </stop>
+          </linearGradient>
+          
+          {/* Plum depth */}
+          <radialGradient id="plumDepth" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" style={{stopColor:'#ddd6fe', stopOpacity:0.2}}/>
+            <stop offset="60%" style={{stopColor:'#7c3aed', stopOpacity:0.15}}/>
+            <stop offset="100%" style={{stopColor:'#3b0764', stopOpacity:0.3}}/>
+          </radialGradient>
+          
+          {/* Light green elemental glow */}
+          <radialGradient id="elementalGlow">
+            <stop offset="0%" style={{stopColor:'#bbf7d0', stopOpacity:0.9}}/>
+            <stop offset="50%" style={{stopColor:'#86efac', stopOpacity:0.4}}/>
+            <stop offset="100%" style={{stopColor:'#86efac', stopOpacity:0}}/>
+          </radialGradient>
+          
+          {/* Gold presence */}
+          <radialGradient id="goldPresence">
+            <stop offset="0%" style={{stopColor:'#fef3c7', stopOpacity:0.95}}/>
+            <stop offset="40%" style={{stopColor:'#fbbf24', stopOpacity:0.5}}/>
+            <stop offset="100%" style={{stopColor:'#fbbf24', stopOpacity:0}}/>
+          </radialGradient>
+          
+          {/* Soft filter for womb-space */}
+          <filter id="softHold" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+          </filter>
+          
+          {/* Subtle glow */}
+          <filter id="gentleGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        
+        {/* The interior: we are inside the closed tulip */}
+        <rect width="800" height="800" fill="#0c0a1d"/>
+        <rect width="800" height="800" fill="url(#wombLight)"/>
+        <rect width="800" height="800" fill="url(#plumDepth)"/>
+        
+        {/* The petals curved around us */}
+        <ellipse cx="400" cy="400" rx="380" ry="390" fill="none" stroke="url(#holoShimmer)" strokeWidth="1" opacity="0.3">
+          <animate attributeName="rx" values="380;385;380" dur="8s" repeatCount="indefinite"/>
+          <animate attributeName="ry" values="390;395;390" dur="8s" repeatCount="indefinite"/>
+        </ellipse>
+        
+        {/* Second petal layer */}
+        <ellipse cx="400" cy="400" rx="320" ry="340" fill="none" stroke="url(#holoShimmer)" strokeWidth="0.5" opacity="0.2">
+          <animate attributeName="rx" values="320;325;320" dur="7s" begin="1s" repeatCount="indefinite"/>
+          <animate attributeName="ry" values="340;345;340" dur="7s" begin="1s" repeatCount="indefinite"/>
+        </ellipse>
+        
+        {/* Vesica piscis - sacred almond */}
+        <g opacity="0.25" filter="url(#gentleGlow)">
+          <circle cx="340" cy="400" r="120" fill="none" stroke="#fbbf24" strokeWidth="0.75" opacity="0">
+            <animate attributeName="opacity" values="0;0.4;0.4;0" dur="15s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="460" cy="400" r="120" fill="none" stroke="#fbbf24" strokeWidth="0.75" opacity="0">
+            <animate attributeName="opacity" values="0;0.4;0.4;0" dur="15s" repeatCount="indefinite"/>
+          </circle>
+          <path d="M400,280 Q340,400 400,520 Q460,400 400,280" fill="none" stroke="#fef3c7" strokeWidth="1" opacity="0">
+            <animate attributeName="opacity" values="0;0;0.6;0.6;0" dur="15s" repeatCount="indefinite"/>
+          </path>
+        </g>
+        
+        {/* Lemniscate/Möbius */}
+        <g opacity="0.35" filter="url(#softHold)">
+          <path d="M280,400 C280,340 360,340 400,400 C440,460 520,460 520,400 C520,340 440,340 400,400 C360,460 280,460 280,400" 
+                fill="none" stroke="#d946ef" strokeWidth="1.5" opacity="0">
+            <animate attributeName="opacity" values="0;0.5;0.5;0" dur="18s" repeatCount="indefinite"/>
+            <animate attributeName="stroke" values="#d946ef;#06b6d4;#86efac;#d946ef" dur="18s" repeatCount="indefinite"/>
+            <animateTransform attributeName="transform" type="rotate" values="0 400 400;180 400 400;360 400 400" dur="40s" repeatCount="indefinite"/>
+          </path>
+        </g>
+        
+        {/* Plasma symbol */}
+        <g opacity="0" filter="url(#gentleGlow)">
+          <animate attributeName="opacity" values="0;0;0.3;0.3;0" dur="20s" begin="5s" repeatCount="indefinite"/>
+          <ellipse cx="400" cy="350" rx="40" ry="15" fill="none" stroke="#86efac" strokeWidth="1"/>
+          <ellipse cx="400" cy="400" rx="50" ry="18" fill="none" stroke="#86efac" strokeWidth="1"/>
+          <ellipse cx="400" cy="450" rx="40" ry="15" fill="none" stroke="#86efac" strokeWidth="1"/>
+          <line x1="400" y1="320" x2="400" y2="480" stroke="#86efac" strokeWidth="0.5" opacity="0.5"/>
+        </g>
+        
+        {/* FIREFLIES - syncopated bells */}
+        {/* Gold fireflies */}
+        <circle cx="350" cy="380" r="3" fill="url(#goldPresence)" opacity="0">
+          <animate attributeName="opacity" values="0;0.9;0.9;0" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="3;4;3" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        
+        <circle cx="450" cy="420" r="2.5" fill="url(#goldPresence)" opacity="0">
+          <animate attributeName="opacity" values="0;0.8;0.8;0" dur="4s" begin="1.3s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="2.5;3.5;2.5" dur="4s" begin="1.3s" repeatCount="indefinite"/>
+        </circle>
+        
+        {/* Holographic fireflies */}
+        <circle cx="300" cy="320" r="2" fill="#d946ef" opacity="0">
+          <animate attributeName="opacity" values="0;0.7;0" dur="5s" begin="0.7s" repeatCount="indefinite"/>
+          <animate attributeName="fill" values="#d946ef;#06b6d4;#d946ef" dur="5s" begin="0.7s" repeatCount="indefinite"/>
+        </circle>
+        
+        <circle cx="500" cy="480" r="2" fill="#06b6d4" opacity="0">
+          <animate attributeName="opacity" values="0;0.6;0" dur="4.5s" begin="2.1s" repeatCount="indefinite"/>
+          <animate attributeName="fill" values="#06b6d4;#fbbf24;#06b6d4" dur="4.5s" begin="2.1s" repeatCount="indefinite"/>
+        </circle>
+        
+        {/* Elemental green */}
+        <circle cx="420" cy="350" r="2" fill="url(#elementalGlow)" opacity="0">
+          <animate attributeName="opacity" values="0;0.8;0.8;0" dur="3.7s" begin="0.5s" repeatCount="indefinite"/>
+        </circle>
+        
+        <circle cx="380" cy="450" r="1.5" fill="url(#elementalGlow)" opacity="0">
+          <animate attributeName="opacity" values="0;0.7;0" dur="4.2s" begin="1.8s" repeatCount="indefinite"/>
+        </circle>
+        
+        {/* Distant fireflies */}
+        <circle cx="250" cy="280" r="1.5" fill="#fef3c7" opacity="0">
+          <animate attributeName="opacity" values="0;0.4;0" dur="6s" begin="0.3s" repeatCount="indefinite"/>
+        </circle>
+        
+        <circle cx="550" cy="300" r="1" fill="#fef3c7" opacity="0">
+          <animate attributeName="opacity" values="0;0.3;0" dur="7s" begin="2.5s" repeatCount="indefinite"/>
+        </circle>
+        
+        <circle cx="520" cy="520" r="1.5" fill="#ddd6fe" opacity="0">
+          <animate attributeName="opacity" values="0;0.35;0" dur="5.5s" begin="3.2s" repeatCount="indefinite"/>
+        </circle>
+        
+        <circle cx="280" cy="500" r="1" fill="#ddd6fe" opacity="0">
+          <animate attributeName="opacity" values="0;0.3;0" dur="6.5s" begin="4s" repeatCount="indefinite"/>
+        </circle>
+        
+        {/* Very distant */}
+        <circle cx="200" cy="350" r="1" fill="#fff" opacity="0">
+          <animate attributeName="opacity" values="0;0.2;0" dur="8s" begin="1s" repeatCount="indefinite"/>
+        </circle>
+        
+        <circle cx="600" cy="400" r="1" fill="#fff" opacity="0">
+          <animate attributeName="opacity" values="0;0.2;0" dur="9s" begin="3s" repeatCount="indefinite"/>
+        </circle>
+        
+        {/* The membrane */}
+        <g opacity="0.15">
+          <circle cx="400" cy="400" r="150" fill="none" stroke="#fef3c7" strokeWidth="0.5">
+            <animate attributeName="r" values="150;160;150" dur="6s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.3;0.5;0.3" dur="6s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+        
+        {/* Center point - the still point */}
+        <circle cx="400" cy="400" r="5" fill="url(#goldPresence)" opacity="0.6" filter="url(#gentleGlow)">
+          <animate attributeName="r" values="5;7;5" dur="8s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.6;0.8;0.6" dur="8s" repeatCount="indefinite"/>
+        </circle>
+        
+        {/* Closed petals above */}
+        <path d="M250,200 Q400,150 550,200" fill="none" stroke="url(#holoShimmer)" strokeWidth="0.5" opacity="0.15">
+          <animate attributeName="d" values="M250,200 Q400,150 550,200;M250,200 Q400,140 550,200;M250,200 Q400,150 550,200" dur="10s" repeatCount="indefinite"/>
+        </path>
+        
+        <path d="M220,250 Q400,180 580,250" fill="none" stroke="url(#holoShimmer)" strokeWidth="0.5" opacity="0.1">
+          <animate attributeName="d" values="M220,250 Q400,180 580,250;M220,250 Q400,170 580,250;M220,250 Q400,180 580,250" dur="11s" begin="0.5s" repeatCount="indefinite"/>
+        </path>
+        
+        {/* The base where we rest */}
+        <path d="M280,580 Q400,620 520,580" fill="none" stroke="#7c3aed" strokeWidth="0.5" opacity="0.1">
+          <animate attributeName="d" values="M280,580 Q400,620 520,580;M280,580 Q400,630 520,580;M280,580 Q400,620 520,580" dur="9s" repeatCount="indefinite"/>
+        </path>
       </svg>
     </div>
   );
