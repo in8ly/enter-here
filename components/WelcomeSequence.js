@@ -333,6 +333,7 @@ const ThresholdSequence = () => {
 const GlitchingRelic = () => {
   const [visible, setVisible] = useState(true);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [falling, setFalling] = useState(false);
 
   useEffect(() => {
     const glitchInterval = setInterval(() => {
@@ -343,16 +344,28 @@ const GlitchingRelic = () => {
       });
     }, 150);
 
-    return () => clearInterval(glitchInterval);
+    // Start falling after 10 seconds
+    const fallTimer = setTimeout(() => {
+      setFalling(true);
+    }, 10000);
+
+    return () => {
+      clearInterval(glitchInterval);
+      clearTimeout(fallTimer);
+    };
   }, []);
 
   return (
     <div 
-      className="absolute top-8 left-8 font-mono text-[#a3d4e5] text-xs pointer-events-none"
+      className="absolute font-mono text-[#a3d4e5] text-xs pointer-events-none"
       style={{
-        opacity: visible ? 0.3 : 0.1,
-        transform: `translate(${position.x}px, ${position.y}px) rotate(-3deg)`,
-        transition: 'opacity 0.05s',
+        top: falling ? 'calc(100vh - 120px)' : '32px',
+        left: falling ? '50%' : '32px',
+        transform: falling 
+          ? 'translate(-50%, 0) rotate(0deg)' 
+          : `translate(${position.x}px, ${position.y}px) rotate(-3deg)`,
+        opacity: visible ? (falling ? 0.5 : 0.3) : 0.1,
+        transition: falling ? 'top 2s cubic-bezier(0.34, 1.56, 0.64, 1), left 2s ease-out, transform 2s ease-out, opacity 0.05s' : 'opacity 0.05s',
         textShadow: visible ? '0 0 8px rgba(163, 212, 229, 0.3)' : 'none'
       }}
     >
