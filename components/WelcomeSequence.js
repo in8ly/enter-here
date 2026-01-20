@@ -4,9 +4,10 @@ const ThresholdSequence = () => {
   const [showCracks, setShowCracks] = useState(false);
   const [showWayText, setShowWayText] = useState(false);
   const [showSeeMe, setShowSeeMe] = useState(false);
-  const [seeMeOpacity, setSeeMeOpacity] = useState(0);
+  const [seeMeMessages, setSeeMeMessages] = useState([]);
   const [showWaterwheel, setShowWaterwheel] = useState(false);
   const [waterwheelComplete, setWaterwheelComplete] = useState(false);
+  const [tulipFadeIn, setTulipFadeIn] = useState(false);
   const canvasRef = useRef(null);
   const fireflyRef = useRef([]);
   const glitchIntervalRef = useRef(null);
@@ -16,8 +17,29 @@ const ThresholdSequence = () => {
     const timeline = [
       { time: 2000, action: () => setShowCracks(true) },
       { time: 8000, action: () => setShowWayText(true) },
-      { time: 12000, action: () => setShowSeeMe(true) },
-      { time: 12500, action: () => setSeeMeOpacity(1) }
+      { time: 12000, action: () => {
+        setShowSeeMe(true);
+        // Generate random "see me" positions
+        const messages = Array.from({ length: 7 }, (_, i) => ({
+          id: i,
+          x: Math.random() * 80 + 10, // 10-90% of width
+          y: Math.random() * 60 + 20, // 20-80% of height
+          opacity: 1,
+          isTrue: i === Math.floor(Math.random() * 7) // One random message is "the one"
+        }));
+        setSeeMeMessages(messages);
+        
+        // Fade out the false ones over time, staggered
+        messages.forEach((msg, idx) => {
+          if (!msg.isTrue) {
+            setTimeout(() => {
+              setSeeMeMessages(prev => 
+                prev.map(m => m.id === msg.id ? { ...m, opacity: 0 } : m)
+              );
+            }, 3000 + (idx * 800)); // Staggered disappearance
+          }
+        });
+      }}
     ];
 
     const timers = timeline.map(({ time, action }) =>
@@ -27,38 +49,46 @@ const ThresholdSequence = () => {
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  // Mouse proximity to "see me"
+  // Mouse proximity only affects the true "see me"
   useEffect(() => {
-    if (!showSeeMe) return;
+    if (!showSeeMe || seeMeMessages.length === 0) return;
 
     const handleMouseMove = (e) => {
-      const seeMeElement = document.getElementById('see-me-text');
-      if (!seeMeElement) return;
+      setSeeMeMessages(prev => prev.map(msg => {
+        if (!msg.isTrue || msg.opacity === 0) return msg;
+        
+        const msgElement = document.getElementById(`see-me-${msg.id}`);
+        if (!msgElement) return msg;
 
-      const rect = seeMeElement.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      const distance = Math.sqrt(
-        Math.pow(e.clientX - centerX, 2) + 
-        Math.pow(e.clientY - centerY, 2)
-      );
+        const rect = msgElement.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const distance = Math.sqrt(
+          Math.pow(e.clientX - centerX, 2) + 
+          Math.pow(e.clientY - centerY, 2)
+        );
 
-      // Vanishes within 150px radius
-      const maxDistance = 150;
-      const newOpacity = Math.min(1, distance / maxDistance);
-      setSeeMeOpacity(newOpacity);
+        // Vanishes within 150px radius
+        const maxDistance = 150;
+        const newOpacity = Math.min(1, distance / maxDistance);
+        return { ...msg, opacity: newOpacity };
+      }));
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [showSeeMe]);
+  }, [showSeeMe, seeMeMessages.length]);
 
-  // Click to trigger waterwheel
-  const handleClick = () => {
+  // Click on any "see me" to trigger waterwheel
+  const handleSeeMeClick = () => {
     if (showSeeMe && !showWaterwheel) {
       setShowWaterwheel(true);
-      setTimeout(() => setWaterwheelComplete(true), 12000);
+      setTimeout(() => {
+        setWaterwheelComplete(true);
+        // Start fade-in after a brief moment
+        setTimeout(() => setTulipFadeIn(true), 100);
+      }, 12000);
     }
   };
 
@@ -121,7 +151,13 @@ const ThresholdSequence = () => {
 
   if (waterwheelComplete) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0c0a1d] overflow-hidden">
+      <div 
+        className="min-h-screen flex items-center justify-center bg-[#0c0a1d] overflow-hidden"
+        style={{
+          opacity: tulipFadeIn ? 1 : 0,
+          transition: 'opacity 3s ease-in-out'
+        }}
+      >
         <TulipInterior />
       </div>
     );
@@ -137,8 +173,7 @@ const ThresholdSequence = () => {
 
   return (
     <div 
-      className="min-h-screen bg-[#2a3831] overflow-hidden cursor-pointer relative"
-      onClick={handleClick}
+      className="min-h-screen bg-[#2a3831] overflow-hidden relative"
     >
       {/* Firefly canvas */}
       <canvas 
@@ -146,7 +181,7 @@ const ThresholdSequence = () => {
         className="absolute inset-0 w-full h-full pointer-events-none"
       />
 
-      {/* Glitching hello.world relic - top left corner */}
+      {/* Glitching hello.world relic - becomes the waves */}
       <GlitchingRelic />
 
       {/* Cracks emerging */}
@@ -246,17 +281,19 @@ const ThresholdSequence = () => {
         </svg>
       )}
 
-      {/* "the way out is the way in" */}
+      {/* "the way out is the way in" - nestled in bottom right waves */}
       {showWayText && (
         <div 
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          className="absolute pointer-events-none"
           style={{
+            bottom: '80px',
+            right: '40px',
             opacity: 0,
             animation: 'glowFadeIn 4s ease-out forwards',
           }}
         >
           <p 
-            className="font-mono text-[#a3d4e5] text-lg opacity-60"
+            className="font-mono text-[#a3d4e5] text-sm opacity-60"
             style={{
               textShadow: '0 0 30px rgba(163, 212, 229, 0.5), 0 0 60px rgba(163, 212, 229, 0.2)'
             }}
@@ -266,26 +303,32 @@ const ThresholdSequence = () => {
         </div>
       )}
 
-      {/* "see me" - vanishes when approached */}
-      {showSeeMe && (
+      {/* Multiple "see me" messages - most fade away, only the true one remains and is clickable */}
+      {showSeeMe && seeMeMessages.map(msg => (
         <div 
-          id="see-me-text"
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 pointer-events-none"
+          key={msg.id}
+          id={`see-me-${msg.id}`}
+          className={msg.isTrue ? "absolute cursor-pointer" : "absolute"}
           style={{
-            opacity: seeMeOpacity,
-            transition: 'opacity 0.3s ease-out',
+            left: `${msg.x}%`,
+            top: `${msg.y}%`,
+            transform: 'translate(-50%, -50%)',
+            opacity: msg.opacity,
+            transition: 'opacity 1.5s ease-out',
+            pointerEvents: msg.isTrue && msg.opacity > 0 ? 'auto' : 'none'
           }}
+          onClick={msg.isTrue ? handleSeeMeClick : undefined}
         >
           <p 
             className="font-mono text-[#88b4a8] text-base"
             style={{
-              textShadow: '0 0 20px rgba(136, 180, 168, 0.4)'
+              textShadow: msg.isTrue ? '0 0 20px rgba(136, 180, 168, 0.4)' : '0 0 10px rgba(136, 180, 168, 0.2)'
             }}
           >
             see me
           </p>
         </div>
-      )}
+      ))}
 
       <style jsx>{`
         @keyframes fadeIn {
@@ -320,17 +363,15 @@ const ThresholdSequence = () => {
   );
 };
 
-// Glitching hello.world relic component
+// Glitching hello.world relic component - dissolves into waves
 const GlitchingRelic = () => {
   const [visible, setVisible] = useState(true);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [falling, setFalling] = useState(false);
-  const [transformed, setTransformed] = useState(false);
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [dissolving, setDissolving] = useState(false);
 
   useEffect(() => {
     const glitchInterval = setInterval(() => {
-      if (!falling) {
+      if (!dissolving) {
         setVisible(Math.random() > 0.3);
         setPosition({
           x: (Math.random() - 0.5) * 2,
@@ -339,93 +380,26 @@ const GlitchingRelic = () => {
       }
     }, 150);
 
-    // Start falling after 6 seconds
-    const fallTimer = setTimeout(() => {
-      setFalling(true);
+    // Start dissolving after 6 seconds
+    const dissolveTimer = setTimeout(() => {
+      setDissolving(true);
     }, 6000);
-
-    // Transform into light after landing
-    const transformTimer = setTimeout(() => {
-      setTransformed(true);
-    }, 7500);
 
     return () => {
       clearInterval(glitchInterval);
-      clearTimeout(fallTimer);
-      clearTimeout(transformTimer);
+      clearTimeout(dissolveTimer);
     };
-  }, [falling]);
-
-  // Update time every second when transformed
-  useEffect(() => {
-    if (!transformed) return;
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [transformed]);
-
-  const formatTime = (date) => {
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
-  };
-
-  if (transformed) {
-    return (
-      <div 
-        className="absolute pointer-events-none"
-        style={{
-          top: 'calc(100vh - 140px)',
-          left: '32px',
-        }}
-      >
-        <div 
-          className="w-2 h-2 rounded-full bg-[#fbbf24]"
-          style={{
-            opacity: 0,
-            animation: 'glimmer 4s ease-in-out infinite',
-            boxShadow: '0 0 20px rgba(251, 191, 36, 0.6), 0 0 40px rgba(251, 191, 36, 0.3)',
-          }}
-        />
-        {/* Current time - showing transformation to present moment */}
-        <div 
-          className="font-mono text-[#fef3c7] text-xs mt-3 ml-[-10px]"
-          style={{
-            opacity: 0,
-            animation: 'fadeIn 3s ease-out 1s forwards',
-            textShadow: '0 0 10px rgba(254, 243, 199, 0.3)'
-          }}
-        >
-          {formatTime(currentTime)}
-        </div>
-        <style jsx>{`
-          @keyframes glimmer {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.5); }
-          }
-          @keyframes fadeIn {
-            to { opacity: 0.5; }
-          }
-        `}</style>
-      </div>
-    );
-  }
+  }, []);
 
   return (
     <div 
       className="absolute font-mono text-[#a3d4e5] text-xs pointer-events-none"
       style={{
-        top: falling ? 'calc(100vh - 140px)' : '32px',
+        top: '32px',
         left: '32px',
-        transform: falling 
-          ? 'rotate(0deg)' 
-          : `translate(${position.x}px, ${position.y}px) rotate(-3deg)`,
-        opacity: falling ? 0 : (visible ? 0.3 : 0.1),
-        transition: falling 
-          ? 'top 1.5s cubic-bezier(0.4, 0, 0.6, 1), opacity 1.5s ease-out, transform 1.5s ease-out' 
-          : 'opacity 0.05s',
+        transform: `translate(${position.x}px, ${position.y}px) rotate(-3deg)`,
+        opacity: dissolving ? 0 : (visible ? 0.3 : 0.1),
+        transition: dissolving ? 'opacity 2s ease-out' : 'opacity 0.05s',
         textShadow: visible ? '0 0 8px rgba(163, 212, 229, 0.3)' : 'none'
       }}
     >
