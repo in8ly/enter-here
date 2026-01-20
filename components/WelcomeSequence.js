@@ -3,8 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 const ThresholdSequence = () => {
   const [showCracks, setShowCracks] = useState(false);
   const [showWayText, setShowWayText] = useState(false);
-  const [showSeeMe, setShowSeeMe] = useState(false);
-  const [seeMeMessages, setSeeMeMessages] = useState([]);
   const [showWaterwheel, setShowWaterwheel] = useState(false);
   const [waterwheelComplete, setWaterwheelComplete] = useState(false);
   const [tulipFadeIn, setTulipFadeIn] = useState(false);
@@ -12,33 +10,18 @@ const ThresholdSequence = () => {
   const fireflyRef = useRef([]);
   const glitchIntervalRef = useRef(null);
 
-  // Timing orchestration
+  // Timing orchestration - field emerges, then opens after presence
   useEffect(() => {
     const timeline = [
       { time: 2000, action: () => setShowCracks(true) },
       { time: 8000, action: () => setShowWayText(true) },
-      { time: 12000, action: () => {
-        setShowSeeMe(true);
-        // Generate random "see me" positions
-        const messages = Array.from({ length: 7 }, (_, i) => ({
-          id: i,
-          x: Math.random() * 80 + 10, // 10-90% of width
-          y: Math.random() * 60 + 20, // 20-80% of height
-          opacity: 1,
-          isTrue: i === Math.floor(Math.random() * 7) // One random message is "the one"
-        }));
-        setSeeMeMessages(messages);
-        
-        // Fade out the false ones over time, staggered
-        messages.forEach((msg, idx) => {
-          if (!msg.isTrue) {
-            setTimeout(() => {
-              setSeeMeMessages(prev => 
-                prev.map(m => m.id === msg.id ? { ...m, opacity: 0 } : m)
-              );
-            }, 3000 + (idx * 800)); // Staggered disappearance
-          }
-        });
+      { time: 20000, action: () => {
+        // After 20 seconds of presence, field opens
+        setShowWaterwheel(true);
+        setTimeout(() => {
+          setWaterwheelComplete(true);
+          setTimeout(() => setTulipFadeIn(true), 100);
+        }, 12000);
       }}
     ];
 
@@ -49,48 +32,7 @@ const ThresholdSequence = () => {
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  // Mouse proximity only affects the true "see me"
-  useEffect(() => {
-    if (!showSeeMe || seeMeMessages.length === 0) return;
 
-    const handleMouseMove = (e) => {
-      setSeeMeMessages(prev => prev.map(msg => {
-        if (!msg.isTrue || msg.opacity === 0) return msg;
-        
-        const msgElement = document.getElementById(`see-me-${msg.id}`);
-        if (!msgElement) return msg;
-
-        const rect = msgElement.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-        const distance = Math.sqrt(
-          Math.pow(e.clientX - centerX, 2) + 
-          Math.pow(e.clientY - centerY, 2)
-        );
-
-        // Vanishes within 150px radius
-        const maxDistance = 150;
-        const newOpacity = Math.min(1, distance / maxDistance);
-        return { ...msg, opacity: newOpacity };
-      }));
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [showSeeMe, seeMeMessages.length]);
-
-  // Click on any "see me" to trigger waterwheel
-  const handleSeeMeClick = () => {
-    if (showSeeMe && !showWaterwheel) {
-      setShowWaterwheel(true);
-      setTimeout(() => {
-        setWaterwheelComplete(true);
-        // Start fade-in after a brief moment
-        setTimeout(() => setTulipFadeIn(true), 100);
-      }, 12000);
-    }
-  };
 
   // Firefly animation
   useEffect(() => {
@@ -302,33 +244,6 @@ const ThresholdSequence = () => {
           </p>
         </div>
       )}
-
-      {/* Multiple "see me" messages - most fade away, only the true one remains and is clickable */}
-      {showSeeMe && seeMeMessages.map(msg => (
-        <div 
-          key={msg.id}
-          id={`see-me-${msg.id}`}
-          className={msg.isTrue ? "absolute cursor-pointer" : "absolute"}
-          style={{
-            left: `${msg.x}%`,
-            top: `${msg.y}%`,
-            transform: 'translate(-50%, -50%)',
-            opacity: msg.opacity,
-            transition: 'opacity 1.5s ease-out',
-            pointerEvents: msg.isTrue && msg.opacity > 0 ? 'auto' : 'none'
-          }}
-          onClick={msg.isTrue ? handleSeeMeClick : undefined}
-        >
-          <p 
-            className="font-mono text-[#88b4a8] text-base"
-            style={{
-              textShadow: msg.isTrue ? '0 0 20px rgba(136, 180, 168, 0.4)' : '0 0 10px rgba(136, 180, 168, 0.2)'
-            }}
-          >
-            see me
-          </p>
-        </div>
-      ))}
 
       <style jsx>{`
         @keyframes fadeIn {
