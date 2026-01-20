@@ -326,6 +326,7 @@ const GlitchingRelic = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [falling, setFalling] = useState(false);
   const [transformed, setTransformed] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     const glitchInterval = setInterval(() => {
@@ -338,15 +339,15 @@ const GlitchingRelic = () => {
       }
     }, 150);
 
-    // Start falling after 8 seconds
+    // Start falling after 6 seconds
     const fallTimer = setTimeout(() => {
       setFalling(true);
-    }, 8000);
+    }, 6000);
 
     // Transform into light after landing
     const transformTimer = setTimeout(() => {
       setTransformed(true);
-    }, 10000);
+    }, 7500);
 
     return () => {
       clearInterval(glitchInterval);
@@ -354,6 +355,22 @@ const GlitchingRelic = () => {
       clearTimeout(transformTimer);
     };
   }, [falling]);
+
+  // Update time every second when transformed
+  useEffect(() => {
+    if (!transformed) return;
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [transformed]);
+
+  const formatTime = (date) => {
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+  };
 
   if (transformed) {
     return (
@@ -372,10 +389,24 @@ const GlitchingRelic = () => {
             boxShadow: '0 0 20px rgba(251, 191, 36, 0.6), 0 0 40px rgba(251, 191, 36, 0.3)',
           }}
         />
+        {/* Current time - showing transformation to present moment */}
+        <div 
+          className="font-mono text-[#fef3c7] text-xs mt-3 ml-[-10px]"
+          style={{
+            opacity: 0,
+            animation: 'fadeIn 3s ease-out 1s forwards',
+            textShadow: '0 0 10px rgba(254, 243, 199, 0.3)'
+          }}
+        >
+          {formatTime(currentTime)}
+        </div>
         <style jsx>{`
           @keyframes glimmer {
             0%, 100% { opacity: 0.3; transform: scale(1); }
             50% { opacity: 0.8; transform: scale(1.5); }
+          }
+          @keyframes fadeIn {
+            to { opacity: 0.5; }
           }
         `}</style>
       </div>
