@@ -326,12 +326,15 @@ const GlitchingRelic = () => {
 // Waterwheel breathing component
 const WaterwheelBreath = () => {
   return (
-    <div className="w-full max-w-5xl mx-auto p-4">
+    <div className="w-full h-full flex items-center justify-center p-4 md:p-8">
       <svg 
         xmlns="http://www.w3.org/2000/svg" 
         viewBox="0 0 1200 800" 
-        className="w-full h-auto"
+        className="w-full h-auto max-w-4xl"
         preserveAspectRatio="xMidYMid meet"
+        style={{
+          maxHeight: '90vh'
+        }}
       >
         {/* Background matches threshold */}
         <rect width="1200" height="800" fill="#2a3831"/>
